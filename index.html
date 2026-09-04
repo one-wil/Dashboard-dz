@@ -99,7 +99,19 @@ async function createStore(){
  try{
   const r=await fetch(url+"/api/store/create",{method:"POST",headers:{"Content-Type":"application/json","X-Master-Key":key},body:JSON.stringify({client:client?.name||"",storeName:name,repository:repo,template:tpl.workerId,expirationDate:$("ex").value||null})});
   let d;try{d=await r.json()}catch{throw new Error("Réponse invalide du Worker.");}
-  if(!r.ok||!d.success)throw new Error(d?.error||d?.message||`Erreur HTTP ${r.status}`);
+  if (!r.ok || !d.success) {
+
+  const message =
+    d?.details
+      ? `${d?.error || "Erreur"} : ${d.details}`
+      : (
+          d?.error ||
+          d?.message ||
+          `Erreur HTTP ${r.status}`
+        );
+
+  throw new Error(message);
+}
   $("steps").innerHTML=(Array.isArray(d.process)?d.process:[]).map((x,i)=>`<div class="step ok">✅ <b>${i+1}.</b> ${esc(x)}</div>`).join("");
   const ids=d.identifiers||{},lic=d.license||{};
   S.stores.push({name,repo,client:client?.name||"",storeId:ids.storeId||"",status:lic.status||"active",expirationDate:lic.expirationDate||null,template:tpl.workerId,repositoryUrl:d.repositoryUrl||"",date:new Date().toISOString()});save();render();
