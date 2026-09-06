@@ -1,0 +1,2988 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1,viewport-fit=cover"
+>
+
+<title>StoreMaster V6.0</title>
+
+
+<style>
+
+/* ============================================================
+   STOREMASTER V6.0
+============================================================ */
+
+:root{
+
+    --bg:#f4f5f7;
+
+    --card:#ffffff;
+
+    --dark:#111827;
+
+    --dark2:#1f2937;
+
+    --gold:#c99728;
+
+    --line:#e5e7eb;
+
+    --muted:#64748b;
+
+    --success:#166534;
+
+    --danger:#991b1b;
+
+}
+
+
+*{
+
+    box-sizing:border-box;
+
+}
+
+
+body{
+
+    margin:0;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    background:
+        var(--bg);
+
+    color:#172033;
+
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.top{
+
+    background:#131c2d;
+
+    color:white;
+
+    padding:
+        16px
+        24px;
+
+}
+
+
+.brand{
+
+    font-weight:900;
+
+    font-size:22px;
+
+    color:#d6aa38;
+
+}
+
+
+.sub{
+
+    font-size:12px;
+
+    color:#aab3c2;
+
+    margin-top:4px;
+
+}
+
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+
+nav{
+
+    display:flex;
+
+    gap:6px;
+
+    flex-wrap:wrap;
+
+    margin-top:14px;
+
+}
+
+
+nav button{
+
+    padding:
+
+        10px
+        14px;
+
+    background:
+        transparent;
+
+    border:0;
+
+    color:#d7dce5;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+}
+
+
+nav button.active{
+
+    background:#263246;
+
+    color:white;
+
+    box-shadow:
+
+        inset
+        2px
+        0
+        0
+        var(--gold);
+
+}
+
+
+/* ============================================================
+   MAIN
+============================================================ */
+
+main{
+
+    padding:24px;
+
+    max-width:1250px;
+
+    margin:auto;
+
+}
+
+
+.page{
+
+    display:none;
+
+}
+
+
+.page.active{
+
+    display:block;
+
+}
+
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(
+            auto-fit,
+            minmax(
+                180px,
+                1fr
+            )
+        );
+
+    gap:15px;
+
+}
+
+
+.two{
+
+    display:grid;
+
+    grid-template-columns:
+
+        1fr
+        1fr;
+
+    gap:15px;
+
+}
+
+
+/* ============================================================
+   CARDS
+============================================================ */
+
+.card{
+
+    background:
+        var(--card);
+
+    padding:18px;
+
+    border:
+
+        1px
+        solid
+        var(--line);
+
+    border-radius:14px;
+
+    box-shadow:
+
+        0
+        2px
+        10px
+        rgba(
+            0,
+            0,
+            0,
+            .03
+        );
+
+}
+
+
+.metric b{
+
+    font-size:30px;
+
+    display:block;
+
+}
+
+
+.metric span,
+
+.small{
+
+    font-size:12px;
+
+    color:
+        var(--muted);
+
+}
+
+
+/* ============================================================
+   FORM
+============================================================ */
+
+label{
+
+    display:block;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    margin:
+
+        10px
+        0;
+
+}
+
+
+input,
+
+select{
+
+    width:100%;
+
+    padding:12px;
+
+    border:
+
+        1px
+        solid
+        var(--line);
+
+    border-radius:8px;
+
+    margin-top:5px;
+
+    background:white;
+
+}
+
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+
+.btn{
+
+    border:0;
+
+    border-radius:8px;
+
+    padding:
+
+        11px
+        15px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    margin:
+
+        5px
+        4px
+        5px
+        0;
+
+}
+
+
+.primary{
+
+    background:#172033;
+
+    color:white;
+
+}
+
+
+.gold{
+
+    background:
+        var(--gold);
+
+    color:#111;
+
+}
+
+
+.danger{
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
+}
+
+
+/* ============================================================
+   STATUS
+============================================================ */
+
+.status,
+
+.step{
+
+    padding:12px;
+
+    border-radius:8px;
+
+    margin-top:10px;
+
+}
+
+
+.status{
+
+    background:#fef3c7;
+
+}
+
+
+.ok{
+
+    background:#dcfce7;
+
+    color:#14532d;
+
+}
+
+
+.bad{
+
+    background:#fee2e2;
+
+    color:#7f1d1d;
+
+}
+
+
+.steps{
+
+    margin-top:10px;
+
+}
+
+
+/* ============================================================
+   TABLE
+============================================================ */
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+th,
+
+td{
+
+    padding:10px;
+
+    border-bottom:
+
+        1px
+        solid
+        var(--line);
+
+    text-align:left;
+
+    font-size:13px;
+
+}
+
+
+th{
+
+    color:
+        var(--muted);
+
+}
+
+
+code{
+
+    word-break:break-all;
+
+    background:#f3f4f6;
+
+    padding:
+
+        5px
+        7px;
+
+    border-radius:6px;
+
+}
+
+
+a{
+
+    color:#0f4c81;
+
+    font-weight:bold;
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media(max-width:800px){
+
+    main{
+
+        padding:16px;
+
+    }
+
+
+    .two{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    nav{
+
+        overflow:auto;
+
+        flex-wrap:nowrap;
+
+    }
+
+
+    nav button{
+
+        white-space:nowrap;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================================
+     HEADER
+=========================================================== -->
+
+<header class="top">
+
+
+<div class="brand">
+
+STOREMASTER V6.0
+
+</div>
+
+
+<div class="sub">
+
+Secure Automated Store Provisioning
+
+</div>
+
+
+
+<nav>
+
+
+<button
+class="active"
+data-p="home"
+>
+
+🏠 Accueil
+
+</button>
+
+
+
+<button
+data-p="clients"
+>
+
+👥 Clients
+
+</button>
+
+
+
+<button
+data-p="templates"
+>
+
+🎨 Templates
+
+</button>
+
+
+
+<button
+data-p="stores"
+>
+
+🏪 Boutiques
+
+</button>
+
+
+
+<button
+data-p="create"
+>
+
+🚀 Créer Boutique
+
+</button>
+
+
+
+<button
+data-p="settings"
+>
+
+⚙️ Paramètres
+
+</button>
+
+
+</nav>
+
+
+</header>
+
+
+
+<!-- ==========================================================
+     MAIN
+=========================================================== -->
+
+<main>
+
+
+
+<!-- ==========================================================
+     HOME
+=========================================================== -->
+
+<section
+id="home"
+class="page active"
+>
+
+
+<h1>
+
+Accueil
+
+</h1>
+
+
+<p class="small">
+
+StoreMaster V6 :
+Cloudflare Worker +
+KV +
+GitHub sécurisé.
+
+</p>
+
+
+
+<div class="grid">
+
+
+<div class="card metric">
+
+<b id="mc">
+
+0
+
+</b>
+
+<span>
+
+Clients
+
+</span>
+
+</div>
+
+
+
+<div class="card metric">
+
+<b id="mt">
+
+0
+
+</b>
+
+<span>
+
+Templates
+
+</span>
+
+</div>
+
+
+
+<div class="card metric">
+
+<b id="ms">
+
+0
+
+</b>
+
+<span>
+
+Boutiques créées ici
+
+</span>
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================================
+     CLIENTS
+=========================================================== -->
+
+<section
+id="clients"
+class="page"
+>
+
+
+<h1>
+
+Clients
+
+</h1>
+
+
+
+<div class="two">
+
+
+<div class="card">
+
+
+<label>
+
+Nom
+
+<input
+id="cn"
+placeholder="Nom du client"
+>
+
+</label>
+
+
+
+<label>
+
+Email
+
+<input
+id="ce"
+placeholder="Email (optionnel)"
+>
+
+</label>
+
+
+
+<button
+class="btn gold"
+onclick="addClient()"
+>
+
+➕ Ajouter
+
+</button>
+
+
+</div>
+
+
+
+<div class="card">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>
+
+Nom
+
+</th>
+
+
+<th>
+
+Email
+
+</th>
+
+
+<th>
+
+</th>
+
+</tr>
+
+</thead>
+
+
+
+<tbody id="cr">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================================
+     TEMPLATES
+=========================================================== -->
+
+<section
+id="templates"
+class="page"
+>
+
+
+<h1>
+
+Templates
+
+</h1>
+
+
+<p class="small">
+
+Ces templates correspondent exactement
+au Worker StoreMaster V6.0.
+
+</p>
+
+
+
+<div class="card">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+
+<th>
+
+Nom
+
+</th>
+
+
+<th>
+
+Template ID
+
+</th>
+
+
+<th>
+
+Repository source
+
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody
+id="trows"
+>
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================================
+     STORES
+=========================================================== -->
+
+<section
+id="stores"
+class="page"
+>
+
+
+<h1>
+
+Boutiques
+
+</h1>
+
+
+
+<div class="card">
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+
+<th>
+
+Boutique
+
+</th>
+
+
+<th>
+
+Repository
+
+</th>
+
+
+<th>
+
+Client
+
+</th>
+
+
+<th>
+
+Template
+
+</th>
+
+
+<th>
+
+Licence
+
+</th>
+
+
+<th>
+
+Date
+
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody
+id="sr"
+>
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================================
+     CREATE STORE
+=========================================================== -->
+
+<section
+id="create"
+class="page"
+>
+
+
+<h1>
+
+🚀 Créer Boutique
+
+</h1>
+
+
+
+<p class="small">
+
+Le Worker V6 crée automatiquement :
+
+la licence dans Cloudflare KV,
+
+le Repository GitHub,
+
+et copie le Template.
+
+</p>
+
+
+
+<div class="two">
+
+
+<!-- FORM -->
+
+<div class="card">
+
+
+<label>
+
+Client
+
+
+<select
+id="nc"
+>
+
+</select>
+
+
+</label>
+
+
+
+<label>
+
+Nom boutique
+
+
+<input
+id="sn"
+placeholder="Ex: SANIX DZ"
+>
+
+
+</label>
+
+
+
+<label>
+
+Repository
+
+
+<input
+id="rn"
+placeholder="Ex: sanix-dz"
+>
+
+
+</label>
+
+
+
+<label>
+
+Template
+
+
+<select
+id="nt"
+>
+
+</select>
+
+
+</label>
+
+
+
+<label>
+
+Date expiration
+(optionnel)
+
+
+<input
+id="ex"
+type="date"
+>
+
+
+</label>
+
+
+
+<button
+
+class="btn primary"
+
+id="createBtn"
+
+onclick="createStore()"
+
+>
+
+🚀 CRÉER LA BOUTIQUE
+
+</button>
+
+
+
+<div
+
+id="st"
+
+class="status"
+
+>
+
+Prêt.
+
+</div>
+
+
+
+<div
+
+id="steps"
+
+class="steps"
+
+>
+
+</div>
+
+
+</div>
+
+
+
+<!-- PROCESS -->
+
+<div class="card">
+
+
+<h3>
+
+Processus V6
+
+</h3>
+
+
+<p class="small">
+
+① Vérification Master API Key
+
+<br>
+
+② Création licence Cloudflare KV
+
+<br>
+
+③ Création Repository GitHub
+
+<br>
+
+④ Copie Template
+
+<br>
+
+⑤ Injection Worker URL
+
+<br>
+
+⑥ Génération mot de passe admin
+
+</p>
+
+
+
+<div
+id="cred"
+>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================================
+     SETTINGS
+=========================================================== -->
+
+<section
+id="settings"
+class="page"
+>
+
+
+<h1>
+
+Paramètres
+
+</h1>
+
+
+
+<div class="card">
+
+
+<label>
+
+Worker URL
+
+
+<input
+
+id="wu"
+
+placeholder="https://...workers.dev"
+
+>
+
+
+</label>
+
+
+
+<label>
+
+Master API Key
+
+
+<input
+
+id="mk"
+
+type="password"
+
+autocomplete="off"
+
+>
+
+
+</label>
+
+
+
+<button
+
+class="btn gold"
+
+onclick="saveSettings()"
+
+>
+
+💾 Enregistrer
+
+</button>
+
+
+
+<div
+
+id="ss"
+
+class="status"
+
+>
+
+Les paramètres restent
+uniquement dans ce navigateur.
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+</main>
+
+
+
+<!-- ==========================================================
+     JAVASCRIPT
+=========================================================== -->
+
+<script>
+
+
+/* ============================================================
+   STORAGE
+============================================================ */
+
+const KEY =
+
+    "storemaster_v6_dashboard";
+
+
+
+/* ============================================================
+   WORKER URL
+============================================================ */
+
+const DEFAULT_WORKER_URL =
+
+    "https://storemaster-worker.vivavoir150.workers.dev";
+
+
+
+/* ============================================================
+   TEMPLATES
+
+   MUST MATCH WORKER V6
+============================================================ */
+
+const TEMPLATES = [
+
+
+    {
+
+        id:
+            "template1",
+
+        name:
+            "batal",
+
+        repo:
+            "batal"
+
+    },
+
+
+    {
+
+        id:
+            "template2",
+
+        name:
+            "ShopLive",
+
+        repo:
+            "shoplive"
+
+    },
+
+
+    {
+
+        id:
+            "template3",
+
+        name:
+            "Template 3",
+
+        repo:
+            "ghalim"
+
+    }
+
+];
+
+
+
+/* ============================================================
+   LOAD DATA
+============================================================ */
+
+const S =
+
+    JSON.parse(
+
+        localStorage.getItem(KEY)
+
+        ||
+
+        `{
+
+            "clients": [],
+
+            "stores": [],
+
+            "settings": {}
+
+        }`
+
+    );
+
+
+
+/* ============================================================
+   HELPERS
+============================================================ */
+
+const $ =
+
+    id =>
+
+        document.getElementById(id);
+
+
+
+const esc =
+
+    value =>
+
+        String(value ?? "")
+
+        .replace(
+
+            /[&<>"']/g,
+
+            character =>
+
+                ({
+
+                    "&":
+                        "&amp;",
+
+                    "<":
+                        "&lt;",
+
+                    ">":
+                        "&gt;",
+
+                    '"':
+                        "&quot;",
+
+                    "'":
+                        "&#039;"
+
+                })[character]
+
+        );
+
+
+
+function save() {
+
+
+    localStorage.setItem(
+
+        KEY,
+
+        JSON.stringify(S)
+
+    );
+
+}
+
+
+
+/* ============================================================
+   INITIALIZATION
+============================================================ */
+
+function ensure() {
+
+
+    if (
+
+        !Array.isArray(
+            S.clients
+        )
+
+    ) {
+
+        S.clients = [];
+
+    }
+
+
+
+    if (
+
+        !Array.isArray(
+            S.stores
+        )
+
+    ) {
+
+        S.stores = [];
+
+    }
+
+
+
+    if (
+
+        !S.settings
+
+    ) {
+
+        S.settings = {};
+
+    }
+
+
+
+    if (
+
+        !S.settings.url
+
+    ) {
+
+        S.settings.url =
+
+            DEFAULT_WORKER_URL;
+
+    }
+
+
+
+    save();
+
+}
+
+
+
+/* ============================================================
+   RENDER
+============================================================ */
+
+function render() {
+
+
+    /* STATS */
+
+    $("mc").textContent =
+
+        S.clients.length;
+
+
+    $("mt").textContent =
+
+        TEMPLATES.length;
+
+
+    $("ms").textContent =
+
+        S.stores.length;
+
+
+
+    /* CLIENTS */
+
+    $("cr").innerHTML =
+
+        S.clients
+
+        .map(
+
+            client =>
+
+                `
+
+                <tr>
+
+                <td>
+
+                ${esc(client.name)}
+
+                </td>
+
+
+                <td>
+
+                ${esc(
+
+                    client.email
+
+                    ||
+
+                    "—"
+
+                )}
+
+                </td>
+
+
+                <td>
+
+                <button
+
+                class="btn danger"
+
+                onclick="dc('${client.id}')"
+
+                >
+
+                ×
+
+                </button>
+
+
+                </td>
+
+
+                </tr>
+
+                `
+
+        )
+
+        .join("")
+
+        ||
+
+        `
+
+        <tr>
+
+        <td colspan="3">
+
+        Aucun client
+
+        </td>
+
+        </tr>
+
+        `;
+
+
+
+    /* TEMPLATES */
+
+    $("trows").innerHTML =
+
+        TEMPLATES
+
+        .map(
+
+            template =>
+
+                `
+
+                <tr>
+
+
+                <td>
+
+                ${esc(template.name)}
+
+                </td>
+
+
+                <td>
+
+                <code>
+
+                ${esc(template.id)}
+
+                </code>
+
+                </td>
+
+
+                <td>
+
+                ${esc(template.repo)}
+
+                </td>
+
+
+                </tr>
+
+                `
+
+        )
+
+        .join("");
+
+
+
+    /* STORES */
+
+    $("sr").innerHTML =
+
+        S.stores
+
+        .map(
+
+            store =>
+
+                `
+
+                <tr>
+
+
+                <td>
+
+                ${esc(store.name)}
+
+                </td>
+
+
+                <td>
+
+                ${esc(store.repository)}
+
+                </td>
+
+
+                <td>
+
+                ${esc(
+
+                    store.client
+
+                    ||
+
+                    "—"
+
+                )}
+
+                </td>
+
+
+                <td>
+
+                ${esc(store.template)}
+
+                </td>
+
+
+                <td>
+
+                ${esc(
+
+                    store.status
+
+                    ||
+
+                    "active"
+
+                )}
+
+                </td>
+
+
+                <td>
+
+                ${esc(
+
+                    store.expirationDate
+
+                    ||
+
+                    "Sans expiration"
+
+                )}
+
+                <br>
+
+                <span class="small">
+
+                ${new Date(
+
+                    store.date
+
+                ).toLocaleString()}
+
+                </span>
+
+
+                </td>
+
+
+                </tr>
+
+                `
+
+        )
+
+        .join("")
+
+        ||
+
+        `
+
+        <tr>
+
+        <td colspan="6">
+
+        Aucune boutique
+
+        </td>
+
+        </tr>
+
+        `;
+
+
+
+    /* CLIENT SELECT */
+
+    $("nc").innerHTML =
+
+        `
+
+        <option value="">
+
+        Sans client
+
+        </option>
+
+        `
+
+        +
+
+        S.clients
+
+        .map(
+
+            client =>
+
+                `
+
+                <option
+
+                value="${client.id}"
+
+                >
+
+                ${esc(client.name)}
+
+                </option>
+
+                `
+
+        )
+
+        .join("");
+
+
+
+    /* TEMPLATE SELECT */
+
+    $("nt").innerHTML =
+
+        `
+
+        <option value="">
+
+        Sélectionner
+
+        </option>
+
+        `
+
+        +
+
+        TEMPLATES
+
+        .map(
+
+            template =>
+
+                `
+
+                <option
+
+                value="${template.id}"
+
+                >
+
+                ${esc(template.name)}
+
+                —
+
+                ${esc(template.id)}
+
+                </option>
+
+                `
+
+        )
+
+        .join("");
+
+
+
+    /* SETTINGS */
+
+    $("wu").value =
+
+        S.settings.url
+
+        ||
+
+        DEFAULT_WORKER_URL;
+
+
+
+    $("mk").value =
+
+        S.settings.key
+
+        ||
+
+        "";
+
+}
+
+
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+
+document
+
+.querySelectorAll(
+
+    "nav button"
+
+)
+
+.forEach(
+
+    button => {
+
+
+        button.onclick = () => {
+
+
+            document
+
+            .querySelectorAll(
+
+                "nav button"
+
+            )
+
+            .forEach(
+
+                element =>
+
+                    element
+
+                    .classList
+
+                    .remove("active")
+
+            );
+
+
+
+            document
+
+            .querySelectorAll(
+
+                ".page"
+
+            )
+
+            .forEach(
+
+                element =>
+
+                    element
+
+                    .classList
+
+                    .remove("active")
+
+            );
+
+
+
+            button
+
+            .classList
+
+            .add("active");
+
+
+
+            $(
+
+                button.dataset.p
+
+            )
+
+            .classList
+
+            .add("active");
+
+
+
+            render();
+
+        };
+
+    }
+
+);
+
+
+
+/* ============================================================
+   GENERATE ID
+============================================================ */
+
+function id() {
+
+
+    if (
+
+        crypto.randomUUID
+
+    ) {
+
+        return crypto.randomUUID();
+
+    }
+
+
+    return (
+
+        Date.now()
+
+        +
+
+        "-"
+
+        +
+
+        Math.random()
+
+    );
+
+}
+
+
+
+/* ============================================================
+   ADD CLIENT
+============================================================ */
+
+function addClient() {
+
+
+    const name =
+
+        $("cn")
+
+        .value
+
+        .trim();
+
+
+
+    const email =
+
+        $("ce")
+
+        .value
+
+        .trim();
+
+
+
+    if (
+
+        !name
+
+    ) {
+
+        alert(
+
+            "Nom obligatoire"
+
+        );
+
+        return;
+
+    }
+
+
+
+    S.clients.push({
+
+        id:
+
+            id(),
+
+
+        name,
+
+
+        email
+
+    });
+
+
+
+    $("cn").value = "";
+
+    $("ce").value = "";
+
+
+
+    save();
+
+
+    render();
+
+}
+
+
+
+/* ============================================================
+   DELETE CLIENT
+============================================================ */
+
+window.dc =
+
+    clientId => {
+
+
+        S.clients =
+
+            S.clients.filter(
+
+                client =>
+
+                    client.id !==
+
+                    clientId
+
+            );
+
+
+        save();
+
+
+        render();
+
+    };
+
+
+
+/* ============================================================
+   SAVE SETTINGS
+============================================================ */
+
+function saveSettings() {
+
+
+    S.settings = {
+
+
+        url:
+
+            $("wu")
+
+            .value
+
+            .trim()
+
+            .replace(
+
+                /\/$/,
+
+                ""
+
+            )
+
+            ||
+
+            DEFAULT_WORKER_URL,
+
+
+        key:
+
+            $("mk")
+
+            .value
+
+            .trim()
+
+    };
+
+
+    save();
+
+
+
+    $("ss")
+
+    .className =
+
+        "status ok";
+
+
+    $("ss")
+
+    .textContent =
+
+        "✅ Paramètres enregistrés.";
+
+}
+
+
+
+/* ============================================================
+   CREATE STORE
+============================================================ */
+
+async function createStore() {
+
+
+    const client =
+
+        S.clients.find(
+
+            item =>
+
+                item.id ===
+
+                $("nc").value
+
+        );
+
+
+
+    const template =
+
+        TEMPLATES.find(
+
+            item =>
+
+                item.id ===
+
+                $("nt").value
+
+        );
+
+
+
+    const name =
+
+        $("sn")
+
+        .value
+
+        .trim();
+
+
+
+    const repository =
+
+        $("rn")
+
+        .value
+
+        .trim();
+
+
+
+    const url =
+
+        (
+
+            S.settings.url
+
+            ||
+
+            DEFAULT_WORKER_URL
+
+        )
+
+        .replace(
+
+            /\/$/,
+
+            ""
+
+        );
+
+
+
+    const key =
+
+        S.settings.key
+
+        ||
+
+        "";
+
+
+
+    /* ========================================================
+       VALIDATION
+    ======================================================== */
+
+    if (
+
+        !key
+
+    ) {
+
+        alert(
+
+            "Configurez Master API Key."
+
+        );
+
+        return;
+
+    }
+
+
+
+    if (
+
+        !name
+
+        ||
+
+        !repository
+
+        ||
+
+        !template
+
+    ) {
+
+        alert(
+
+            "Nom, repository et template obligatoires."
+
+        );
+
+        return;
+
+    }
+
+
+
+    /* ========================================================
+       LOADING
+    ======================================================== */
+
+    $("createBtn").disabled =
+
+        true;
+
+
+
+    $("st").className =
+
+        "status";
+
+
+    $("st").textContent =
+
+        "⏳ Création en cours...";
+
+
+
+    $("steps").innerHTML =
+
+        "";
+
+
+    $("cred").innerHTML =
+
+        "";
+
+
+
+    try {
+
+
+
+        /* ====================================================
+           CALL WORKER V6
+
+           POST
+
+           /api/store/create
+        ===================================================== */
+
+        const response =
+
+            await fetch(
+
+                url +
+
+                "/api/store/create",
+
+                {
+
+                    method:
+
+                        "POST",
+
+
+                    headers: {
+
+
+                        "Content-Type":
+
+                            "application/json",
+
+
+                        "X-Master-Key":
+
+                            key
+
+                    },
+
+
+                    body:
+
+                        JSON.stringify({
+
+
+                            client:
+
+                                client?.name
+
+                                ||
+
+                                "",
+
+
+                            storeName:
+
+                                name,
+
+
+                            repository:
+
+                                repository,
+
+
+                            template:
+
+                                template.id,
+
+
+                            expirationDate:
+
+                                $("ex").value
+
+                                ||
+
+                                null
+
+                        })
+
+                }
+
+            );
+
+
+
+        const data =
+
+            await response
+
+            .json()
+
+            .catch(
+
+                () =>
+
+                    ({})
+
+            );
+
+
+
+        /* ====================================================
+           ERROR
+        ===================================================== */
+
+        if (
+
+            !response.ok
+
+            ||
+
+            !data.success
+
+        ) {
+
+            throw new Error(
+
+                data.error
+
+                ||
+
+                data.message
+
+                ||
+
+                `Erreur HTTP ${response.status}`
+
+            );
+
+        }
+
+
+
+        /* ====================================================
+           SUCCESS STEPS
+        ===================================================== */
+
+        const steps = [
+
+
+            "Licence créée dans Cloudflare KV",
+
+
+            "Repository GitHub créé",
+
+
+            `Template ${template.id} copié`,
+
+
+            `${
+
+                data.copiedFiles
+
+                ||
+
+                0
+
+            } fichier(s) traité(s)`,
+
+
+            "Worker URL injectée dans les fichiers"
+
+        ];
+
+
+
+        $("steps").innerHTML =
+
+            steps
+
+            .map(
+
+                (
+
+                    step,
+
+                    index
+
+                ) =>
+
+                    `
+
+                    <div class="step ok">
+
+                    ✅
+
+                    <b>
+
+                    ${index + 1}.
+
+                    </b>
+
+                    ${esc(step)}
+
+                    </div>
+
+                    `
+
+            )
+
+            .join("");
+
+
+
+        /* ====================================================
+           RESPONSE
+        ===================================================== */
+
+        const license =
+
+            data.license
+
+            ||
+
+            {};
+
+
+
+        const store =
+
+            data.store
+
+            ||
+
+            {};
+
+
+
+        const identifiers =
+
+            data.identifiers
+
+            ||
+
+            {};
+
+
+
+        /* ====================================================
+           SAVE STORE LOCALLY
+        ===================================================== */
+
+        S.stores.push({
+
+
+            name:
+
+                store.name
+
+                ||
+
+                name,
+
+
+            repository:
+
+                store.repository
+
+                ||
+
+                repository,
+
+
+            client:
+
+                client?.name
+
+                ||
+
+                "",
+
+
+            template:
+
+                store.template
+
+                ||
+
+                template.id,
+
+
+            status:
+
+                license.status
+
+                ||
+
+                "active",
+
+
+            expirationDate:
+
+                license.expirationDate
+
+                ||
+
+                null,
+
+
+            date:
+
+                new Date()
+
+                .toISOString()
+
+        });
+
+
+
+        save();
+
+
+
+        render();
+
+
+
+        /* ====================================================
+           SUCCESS
+        ===================================================== */
+
+        $("st").className =
+
+            "status ok";
+
+
+        $("st").textContent =
+
+            "🎉 Boutique créée avec succès.";
+
+
+
+        /* ====================================================
+           ADMIN PASSWORD
+
+           WORKER V6 RETURNS:
+
+           identifiers.adminPassword
+        ===================================================== */
+
+        $("cred").innerHTML =
+
+            `
+
+            <h3>
+
+            🔐 Mot de passe administrateur
+
+            </h3>
+
+
+            <p>
+
+            <code>
+
+            ${esc(
+
+                identifiers.adminPassword
+
+                ||
+
+                ""
+
+            )}
+
+            </code>
+
+            </p>
+
+
+            <p class="small">
+
+            ⚠️ Conservez ce mot de passe.
+
+            Il est retourné lors de la création
+
+            de la boutique.
+
+            </p>
+
+
+            <p>
+
+            <b>
+
+            Licence :
+
+            </b>
+
+
+            ${esc(
+
+                license.status
+
+                ||
+
+                "active"
+
+            )}
+
+            </p>
+
+
+            <p>
+
+            <b>
+
+            Expiration :
+
+            </b>
+
+
+            ${esc(
+
+                license.expirationDate
+
+                ||
+
+                "Sans expiration"
+
+            )}
+
+            </p>
+
+
+            ${
+
+                data.repositoryUrl
+
+                ?
+
+                `
+
+                <p>
+
+                <b>
+
+                GitHub :
+
+                </b>
+
+                <br>
+
+
+                <a
+
+                href="${esc(
+
+                    data.repositoryUrl
+
+                )}"
+
+                target="_blank"
+
+                rel="noopener"
+
+                >
+
+                ${esc(
+
+                    data.repositoryUrl
+
+                )}
+
+                </a>
+
+
+                </p>
+
+                `
+
+                :
+
+                ""
+
+            }
+
+            `;
+
+
+
+        /* ====================================================
+           CLEAR FORM
+        ===================================================== */
+
+        $("sn").value = "";
+
+        $("rn").value = "";
+
+        $("ex").value = "";
+
+
+
+    }
+
+
+    catch(error) {
+
+
+
+        $("st").className =
+
+            "status bad";
+
+
+
+        $("st").textContent =
+
+            "❌ "
+
+            +
+
+            (
+
+                error?.message
+
+                ||
+
+                "Erreur inconnue"
+
+            );
+
+    }
+
+
+    finally {
+
+
+
+        $("createBtn").disabled =
+
+            false;
+
+    }
+
+}
+
+
+
+/* ============================================================
+   START
+============================================================ */
+
+ensure();
+
+render();
+
+
+</script>
+
+
+</body>
+
+</html>
