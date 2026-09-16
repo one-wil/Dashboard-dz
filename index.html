@@ -41,7 +41,7 @@
  <div class="card"><form id="createForm"><div class="formgrid">
   <div class="field"><label>Client</label><select id="cClient" required></select></div>
   <div class="field"><label>Nom de la boutique</label><input id="cStore" required placeholder="Ex: Ahmed Fashion"></div>
-  <div class="field"><label>Template</label><select id="cTemplate"><option value="template1">batal</option><option value="template2">ShopLive</option><option value="template3">hassoun</option></select></div>
+  <div class="field"><label>Template</label><select id="cTemplate"><option value="template1">dawn-dz</option><option value="template2">ShopLive</option><option value="template3">hassoun</option></select></div>
   <div class="field"><label>Nom Repository</label><input id="cRepo" required placeholder="ahmed-fashion"></div>
   <div class="field full"><label>Date d'expiration (optionnel)</label><input id="cExpiration" type="date"></div>
  </div><div class="modalfoot"><button type="submit" class="btn primary" id="createBtn">🚀 Créer et déployer automatiquement</button></div></form>
@@ -60,7 +60,7 @@
 <div class="createLive" id="createLive"><div class="liveBox"><div class="liveHead"><div class="liveOrb" id="liveOrb">🚀</div><div><div class="liveTitle" id="liveTitle">Création intelligente</div><div class="liveSub" id="liveSub">Préparation des opérations sécurisées…</div></div></div><div class="liveBody"><div class="liveSteps" id="liveSteps"></div><div class="liveTimer"><span id="liveState">Initialisation…</span><span id="liveTime">00:00</span></div><div class="liveResult" id="liveResult"></div></div><div class="liveFoot"><button class="btn gold liveClose" id="liveClose" onclick="closeLive()">✓ Terminer</button></div></div></div>
 
 <script>
-const TEMPLATES=[{id:'template1',name:'batal',repo:'batal'},{id:'template2',name:'ShopLive',repo:'shoplive'},{id:'template3',name:'hassoun',repo:'hassoun'}];
+const TEMPLATES=[{id:'template1',name:'dawn-dz',repo:'dawn-dz'},{id:'template2',name:'ShopLive',repo:'shoplive'},{id:'template3',name:'hassoun',repo:'hassoun'}];
 let db=JSON.parse(localStorage.getItem('storemaster_v62_db')||'{"clients":[],"stores":[]}');
 const settings=JSON.parse(localStorage.getItem('storemaster_v62_settings')||'{}');
 const $=id=>document.getElementById(id);
