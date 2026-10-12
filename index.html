@@ -89,7 +89,7 @@ body:not(.dashboard-authenticated) .app{display:none!important}
 <section id="settings" class="page hidden">
  <div class="top"><div><h2>⚙️ Paramètres</h2><p>Configuration du Dashboard central.</p></div></div>
  <div class="card"><h3>🔐 Connexion au Worker</h3><div class="formgrid"><div class="field full"><label>URL du Worker</label><input id="workerUrl" placeholder="https://votre-worker.workers.dev"></div><div class="field full"><label>MASTER_API_KEY</label><input id="masterKey" type="password" placeholder="Clé administrateur"></div></div><div class="modalfoot"><button class="btn primary" onclick="saveSettings()">💾 Enregistrer</button><button class="btn gold" onclick="testWorker()">🔌 Tester la connexion</button></div><div class="statusline connection"><span class="dot" id="connDot"></span><span id="connText">Non testé</span></div><p class="note">La clé est utilisée uniquement pour communiquer avec votre Worker. Elle n'est jamais envoyée à GitHub ou Cloudflare directement.</p></div>
- <div class="card"><h3>💾 Données locales</h3><button class="btn light" onclick="exportData()">⬇️ Exporter</button> <button class="btn danger" onclick="resetData()">🗑️ Réinitialiser</button></div>
+ <div class="card"><h3>💾 Données locales</h3><button class="btn light" onclick="exportData()">⬇️ Exporter</button> <button class="btn gold" onclick="importData()">📥 جلب البيانات</button> <button class="btn danger" onclick="resetData()">🗑️ Réinitialiser</button><input id="importDataFile" type="file" accept=".json,application/json" class="hidden" onchange="handleDataImport(event)"><p class="note" style="margin-top:10px">استرجاع بيانات العملاء والمتاجر من ملف النسخة الاحتياطية JSON الذي تم تصديره سابقًا.</p></div>
 </section>
 </main></div>
 
@@ -255,6 +255,24 @@ function selectTemplate(id){openCreate();setTimeout(()=>$('cTemplate').value=id,
 function saveSettings(){settings.workerUrl=$('workerUrl').value.trim().replace(/\/$/,'');settings.masterKey=$('masterKey').value.trim();localStorage.setItem('storemaster_v62_settings',JSON.stringify(settings));alert('Paramètres enregistrés.')}
 async function testWorker(){try{let url=$('workerUrl').value.trim().replace(/\/$/,'');if(!url)throw new Error('URL Worker manquante');let r=await fetch(url+'/health');let d=await r.json();if(!r.ok||d.success===false)throw new Error(d.error||'Worker indisponible');$('connDot').className='dot on';$('connText').textContent=`Connecté • ${d.service||'StoreMaster Worker'} • V${d.version||'8.1'} • ${d.status||'online'}`;settings.workerUrl=url;localStorage.setItem('storemaster_v62_settings',JSON.stringify(settings))}catch(e){$('connDot').className='dot off';$('connText').textContent='Erreur : '+e.message}}
 function exportData(){let b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='storemaster-V8.1-data.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(){const f=$('importDataFile');if(f){f.value='';f.click()}}
+function handleDataImport(event){
+  const file=event.target.files?.[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const imported=JSON.parse(String(reader.result||''));
+      if(!imported||!Array.isArray(imported.clients)||!Array.isArray(imported.stores))throw new Error('صيغة الملف غير صحيحة. اختر ملف النسخة الاحتياطية JSON الصادر عن STOREMASTER.');
+      if(!confirm('سيتم استبدال البيانات المحلية الحالية بالبيانات الموجودة في الملف. هل تريد المتابعة؟'))return;
+      db={clients:imported.clients,stores:imported.stores};
+      save();renderAll();
+      alert('تم جلب البيانات واستعادتها بنجاح.');
+    }catch(err){alert(err.message||'تعذر قراءة ملف البيانات.')}
+    finally{event.target.value=''}
+  };
+  reader.onerror=()=>alert('تعذر قراءة الملف المحدد.');
+  reader.readAsText(file);
+}
 function resetData(){if(confirm('Supprimer toutes les données locales ?')){db={clients:[],stores:[]};save();renderAll()}}
 $('workerUrl').value=settings.workerUrl||'';$('masterKey').value=settings.masterKey||'';
 const sharedParam=new URLSearchParams(location.search).get('storecard');
