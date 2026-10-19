@@ -1,6 +1,893 @@
 {
-  "schemaVersion": 1,
-  "clients": [],
-  "stores": [],
-  "updatedAt": null
+  "clients": [
+    {
+      "id": "CL-mu4bv8eyl60n",
+      "name": "BENAKRAB AHCENE ",
+      "email": "ahcene.2008@gmail.com",
+      "phone": "0551102155",
+      "status": "Active"
+    },
+    {
+      "id": "CL-mu6r8zdsxzh5",
+      "name": " BENAKRAB HOCINE",
+      "email": "hocine@gmail.com",
+      "phone": "0671466489",
+      "status": "Active"
+    },
+    {
+      "id": "CL-mua298yahmax",
+      "name": "خويض حليمة",
+      "email": "",
+      "phone": "",
+      "status": "Active"
+    },
+    {
+      "id": "CL-muac4g78mkxo",
+      "name": "BENAKRAB Yacine",
+      "email": "",
+      "phone": "0671466489",
+      "status": "Active"
+    },
+    {
+      "id": "CL-muadihytj6vj",
+      "name": "Salim Dellouche",
+      "email": "",
+      "phone": "",
+      "status": "Active"
+    },
+    {
+      "id": "CL-muk6inhnggf7",
+      "name": "Haman",
+      "email": "hamam@gmail.com",
+      "phone": "0754408754",
+      "status": "Active"
+    },
+    {
+      "id": "CL-muvovb9th9fl",
+      "name": "BENAKRAB YOUNES",
+      "email": "younes@gmail.com",
+      "phone": "07643333344",
+      "status": "Active"
+    },
+    {
+      "id": "CL-muvpdrox1zjy",
+      "name": "Bachir maghzili",
+      "email": "",
+      "phone": "",
+      "status": "Active"
+    },
+    {
+      "id": "CL-mv1m6le9eet0",
+      "name": "Hachmi ali",
+      "email": "",
+      "phone": "",
+      "status": "Active"
+    },
+    {
+      "id": "CL-mv1n1usyp441",
+      "name": "Sami youcef",
+      "email": "",
+      "phone": "",
+      "status": "Active"
+    },
+    {
+      "id": "CL-mv6vxryx5cz2",
+      "name": "Khaoui  halima",
+      "email": "",
+      "phone": "",
+      "status": "Active"
+    },
+    {
+      "id": "CL-mvfq9tiqepqn",
+      "name": "هاني شاكر",
+      "email": "",
+      "phone": "",
+      "status": "Active"
+    }
+  ],
+  "stores": [
+    {
+      "id": "ST-mu4bxb4ttoie",
+      "clientId": "CL-mu4bv8eyl60n",
+      "name": "Vol-Shop",
+      "template": "dawn-dz",
+      "repo": "vol-shop",
+      "status": "Active",
+      "createdAt": "2026-09-16T16:42:54.750Z",
+      "adminPassword": "0a5ecb9493",
+      "github": {
+        "repository": "vol-shop",
+        "repositoryId": 1373351207,
+        "repositoryUrl": "https://github.com/one-wil/vol-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "vol-shop",
+        "projectName": "vol-shop",
+        "url": "https://vol-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "vol-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mu6rbgr1dtjj",
+      "clientId": "CL-mu6r8zdsxzh5",
+      "name": "Hocin-shop",
+      "template": "dawn-dz",
+      "repo": "hocin-shop",
+      "status": "Active",
+      "createdAt": "2026-09-18T09:29:21.805Z",
+      "adminPassword": "4e4e8ffeb6",
+      "github": {
+        "repository": "hocin-shop",
+        "repositoryId": 1375652162,
+        "repositoryUrl": "https://github.com/one-wil/hocin-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "hocin-shop",
+        "projectName": "hocin-shop",
+        "url": "https://hocin-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "hocin-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mua2q569w8ly",
+      "clientId": "CL-mua298yahmax",
+      "name": "Khouid-shop",
+      "template": "dawn-dz",
+      "repo": "khaouid-shop",
+      "status": "Active",
+      "createdAt": "2026-09-20T17:12:00.947Z",
+      "adminPassword": "aeaa520dc6",
+      "github": {
+        "repository": "khaouid-shop",
+        "repositoryId": 1378587029,
+        "repositoryUrl": "https://github.com/one-wil/khaouid-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "khaouid-shop",
+        "projectName": "khaouid-shop",
+        "url": "https://khaouid-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "active",
+        "error": null,
+        "subdomain": "khaouid-shop.pages.dev"
+      }
+    },
+    {
+      "id": "ST-muac6s8rfrdh",
+      "clientId": "CL-muac4g78mkxo",
+      "name": "Sanix-shop",
+      "template": "dawn-dz",
+      "repo": "sanix-shop",
+      "status": "Active",
+      "createdAt": "2026-09-20T21:36:53.883Z",
+      "adminPassword": "8fd5fc6ea1",
+      "github": {
+        "repository": "sanix-shop",
+        "repositoryId": 1378796388,
+        "repositoryUrl": "https://github.com/one-wil/sanix-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "sanix-shop",
+        "projectName": "sanix-shop",
+        "url": "https://sanix-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "active",
+        "error": null,
+        "subdomain": "sanix-shop.pages.dev"
+      }
+    },
+    {
+      "id": "ST-muad0rp964ao",
+      "clientId": "CL-mu4bv8eyl60n",
+      "name": "Fly-shop",
+      "template": "dawn-dz",
+      "repo": "fly-shop",
+      "status": "Active",
+      "createdAt": "2026-09-20T22:00:12.861Z",
+      "adminPassword": "e24f929374",
+      "github": {
+        "repository": "fly-shop",
+        "repositoryId": 1378811022,
+        "repositoryUrl": "https://github.com/one-wil/fly-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "fly-shop",
+        "projectName": "fly-shop",
+        "url": "https://fly-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "active",
+        "error": null,
+        "subdomain": "fly-shop.pages.dev"
+      }
+    },
+    {
+      "id": "ST-muadk0swtz1r",
+      "clientId": "CL-muadihytj6vj",
+      "name": "Dello-shop",
+      "template": "dawn-dz",
+      "repo": "dello-shop",
+      "status": "Active",
+      "createdAt": "2026-09-20T22:15:11.120Z",
+      "adminPassword": "c4f2f89304",
+      "github": {
+        "repository": "dello-shop",
+        "repositoryId": 1378820191,
+        "repositoryUrl": "https://github.com/one-wil/dello-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "dello-shop",
+        "projectName": "dello-shop",
+        "url": "https://dello-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "active",
+        "error": null,
+        "subdomain": "dello-shop.pages.dev"
+      }
+    },
+    {
+      "id": "ST-muadune81cjw",
+      "clientId": "CL-mua298yahmax",
+      "name": "H-2h-shop",
+      "template": "dawn-dz",
+      "repo": "h2h-shop",
+      "status": "Active",
+      "createdAt": "2026-09-20T22:23:26.960Z",
+      "adminPassword": "eeb03d94e1",
+      "github": {
+        "repository": "h2h-shop",
+        "repositoryId": 1378825292,
+        "repositoryUrl": "https://github.com/one-wil/h2h-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "h2h-shop",
+        "projectName": "h2h-shop",
+        "url": "https://h2h-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "h2h-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-muaem3yc9wtg",
+      "clientId": "CL-mua298yahmax",
+      "name": "Halima-shop",
+      "template": "dawn-dz",
+      "repo": "halima-shop",
+      "status": "Active",
+      "createdAt": "2026-09-20T22:44:48.133Z",
+      "adminPassword": "5694d4fa7b",
+      "github": {
+        "repository": "halima-shop",
+        "repositoryId": 1378837676,
+        "repositoryUrl": "https://github.com/one-wil/halima-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "halima-shop",
+        "projectName": "halima-shop",
+        "url": "https://halima-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "active",
+        "error": null,
+        "subdomain": "halima-shop.pages.dev"
+      }
+    },
+    {
+      "id": "ST-muaezu65q31f",
+      "clientId": "CL-muac4g78mkxo",
+      "name": "Kilo-shop",
+      "template": "dawn-dz",
+      "repo": "kilo-shop",
+      "status": "Active",
+      "createdAt": "2026-09-20T22:55:28.637Z",
+      "adminPassword": "6da78344bf",
+      "github": {
+        "repository": "kilo-shop",
+        "repositoryId": 1378843728,
+        "repositoryUrl": "https://github.com/one-wil/kilo-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "kilo-shop",
+        "projectName": "kilo-shop",
+        "url": "https://kilo-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "kilo-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-muk9twyx5qot",
+      "clientId": "CL-muk6inhnggf7",
+      "name": "Hamam-shop1",
+      "template": "dawn-dz",
+      "repo": "hamam-shop1",
+      "status": "Active",
+      "createdAt": "2026-09-27T20:28:36.010Z",
+      "adminPassword": "4f5e32eb85",
+      "github": {
+        "repository": "hamam-shop1",
+        "repositoryId": 1391378187,
+        "repositoryUrl": "https://github.com/one-wil/hamam-shop1",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "hamam-shop1",
+        "projectName": "hamam-shop1",
+        "url": "https://hamam-shop1.pages.dev",
+        "created": false,
+        "deploymentStatus": "active",
+        "error": null,
+        "subdomain": "hamam-shop1.pages.dev"
+      }
+    },
+    {
+      "id": "ST-murkofrmyp2h",
+      "clientId": "CL-mu6r8zdsxzh5",
+      "name": "Serrah",
+      "template": "dawn-dz",
+      "repo": "serrah-shop",
+      "status": "Active",
+      "createdAt": "2026-10-02T23:06:39.443Z",
+      "adminPassword": "48360b8e6d",
+      "github": {
+        "repository": "serrah-shop",
+        "repositoryId": 1402440319,
+        "repositoryUrl": "https://github.com/one-wil/serrah-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "serrah-shop",
+        "projectName": "serrah-shop",
+        "url": "https://serrah-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "serrah-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-musmer3jwn1i",
+      "clientId": "CL-mua298yahmax",
+      "name": "Holima",
+      "template": "dawn-dz",
+      "repo": "holima",
+      "status": "Active",
+      "expirationDate": "2026-11-03",
+      "createdAt": "2026-10-03T16:42:52.976Z",
+      "adminPassword": "0636297f3b",
+      "github": {
+        "repository": "holima",
+        "repositoryId": 1403420360,
+        "repositoryUrl": "https://github.com/one-wil/holima",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "holima",
+        "projectName": "holima",
+        "url": "https://holima-ash.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "holima-ash.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-muvoxckcaksn",
+      "clientId": "CL-muvovb9th9fl",
+      "name": "Younes-shop",
+      "template": "dawn-dz",
+      "repo": "younes-shop",
+      "status": "Active",
+      "expirationDate": "2027-01-05",
+      "createdAt": "2026-10-05T20:16:38.364Z",
+      "adminPassword": "270cbc29ea",
+      "github": {
+        "repository": "younes-shop",
+        "repositoryId": 1406336018,
+        "repositoryUrl": "https://github.com/one-wil/younes-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "younes-shop",
+        "projectName": "younes-shop",
+        "url": "https://younes-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "active",
+        "error": null,
+        "subdomain": "younes-shop.pages.dev"
+      }
+    },
+    {
+      "id": "ST-muvpfuij3fjt",
+      "clientId": "CL-muvpdrox1zjy",
+      "name": "Meghili-shop",
+      "template": "dawn-dz",
+      "repo": "meghili-shop",
+      "status": "Active",
+      "expirationDate": "2026-11-05",
+      "createdAt": "2026-10-05T20:31:01.436Z",
+      "adminPassword": "eb9093c6de",
+      "github": {
+        "repository": "meghili-shop",
+        "repositoryId": 1406349295,
+        "repositoryUrl": "https://github.com/one-wil/meghili-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "meghili-shop",
+        "projectName": "meghili-shop",
+        "url": "https://meghili-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "meghili-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mv1mb7h1al29",
+      "storeId": "9f63ea32-0959-45ca-b9a8-8987ae57f2ea",
+      "clientId": "CL-mv1m6le9eet0",
+      "name": "Hachmi-shop",
+      "template": "dawn-dz",
+      "repo": "hachmi-shop",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "activationDate": "2026-07-12",
+      "expirationDate": "2026-10-12",
+      "createdAt": "2026-10-09T23:50:03.157Z",
+      "adminPassword": "87ae57f2ea",
+      "github": {
+        "repository": "hachmi-shop",
+        "repositoryId": 1412564907,
+        "repositoryUrl": "https://github.com/one-wil/hachmi-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "hachmi-shop",
+        "projectName": "hachmi-shop",
+        "url": "https://hachmi-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "hachmi-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mv1mgljp21ri",
+      "storeId": "ef9c4059-9ced-40cd-b855-c26f88d6d721",
+      "clientId": "CL-mua298yahmax",
+      "name": "Haliming",
+      "template": "dawn-dz",
+      "repo": "hy-shop",
+      "status": "Active",
+      "subscriptionPlan": "6m",
+      "subscriptionPrice": 5000,
+      "activationDate": "2026-10-10",
+      "expirationDate": "2027-04-10",
+      "createdAt": "2026-10-09T23:54:14.677Z",
+      "adminPassword": "6f88d6d721",
+      "github": {
+        "repository": "hy-shop",
+        "repositoryId": 1412567271,
+        "repositoryUrl": "https://github.com/one-wil/hy-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "hy-shop",
+        "projectName": "hy-shop",
+        "url": "https://hy-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "failure",
+        "error": null,
+        "subdomain": "hy-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mv1n551s3c8d",
+      "storeId": "a0e99695-e2bd-458f-9dd6-b0e3d9e991d9",
+      "clientId": "CL-mv1n1usyp441",
+      "name": "Sami",
+      "template": "dawn-dz",
+      "repo": "sami-shop",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "activationDate": "2026-10-10",
+      "expirationDate": "2027-01-10",
+      "createdAt": "2026-10-10T00:13:19.696Z",
+      "adminPassword": "e3d9e991d9",
+      "github": {
+        "repository": "sami-shop",
+        "repositoryId": 1412578531,
+        "repositoryUrl": "https://github.com/one-wil/sami-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "sami-shop",
+        "projectName": "sami-shop",
+        "url": "https://sami-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "failure",
+        "error": null,
+        "subdomain": "sami-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mv1nax3hg1an",
+      "storeId": "d58f10b6-aeaf-4e07-83da-72cd37ac4169",
+      "clientId": "CL-mu6r8zdsxzh5",
+      "name": "Hoho",
+      "template": "dawn-dz",
+      "repo": "hoho-shop",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "activationDate": "2026-10-09",
+      "expirationDate": "2027-01-09",
+      "createdAt": "2026-10-10T00:17:49.325Z",
+      "adminPassword": "cd37ac4169",
+      "github": {
+        "repository": "hoho-shop",
+        "repositoryId": 1412580952,
+        "repositoryUrl": "https://github.com/one-wil/hoho-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "hoho-shop",
+        "projectName": "hoho-shop",
+        "url": "https://hoho-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "failure",
+        "error": null,
+        "subdomain": "hoho-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mv1o4px7ov4o",
+      "storeId": "d1055e15-0e2b-4051-9d03-2764b2156988",
+      "clientId": "CL-muac4g78mkxo",
+      "name": "Hasseno-dz",
+      "template": "dawn-dz",
+      "repo": "hasseno-dz",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "subscriptionType": "paid",
+      "trialUsed": false,
+      "activationDate": "2026-10-10",
+      "expirationDate": "2027-01-10",
+      "createdAt": "2026-10-10T00:40:59.710Z",
+      "adminPassword": "64b2156988",
+      "github": {
+        "repository": "hasseno-dz",
+        "repositoryId": 1412594329,
+        "repositoryUrl": "https://github.com/one-wil/hasseno-dz",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "hasseno-dz",
+        "projectName": "hasseno-dz",
+        "url": "https://hasseno-dz.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "hasseno-dz.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mv1p8flij1gz",
+      "storeId": "c34efb63-d2fd-4d70-897e-2f83b3f32bbe",
+      "clientId": "CL-mua298yahmax",
+      "name": "Good-shop",
+      "template": "dawn-dz",
+      "repo": "good-shop",
+      "status": "Active",
+      "subscriptionPlan": "trial",
+      "subscriptionPrice": 0,
+      "subscriptionType": "trial",
+      "trialUsed": true,
+      "activationDate": "2026-10-10",
+      "expirationDate": "2026-11-09",
+      "createdAt": "2026-10-10T01:11:52.566Z",
+      "adminPassword": "83b3f32bbe",
+      "github": {
+        "repository": "good-shop",
+        "repositoryId": 1412612792,
+        "repositoryUrl": "https://github.com/one-wil/good-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "good-shop",
+        "projectName": "good-shop",
+        "url": "https://good-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "good-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mv1r2nvt2k1p",
+      "storeId": "2b3e3ec0-fcbc-4a2c-abf3-dec61dd52654",
+      "clientId": "CL-muadihytj6vj",
+      "name": "Fuilo-shop1",
+      "template": "dawn-dz",
+      "repo": "fuilo-shop1",
+      "status": "Active",
+      "subscriptionPlan": "trial",
+      "subscriptionPrice": 0,
+      "subscriptionType": "trial",
+      "trialUsed": true,
+      "activationDate": "2026-10-10",
+      "expirationDate": "2026-11-09",
+      "createdAt": "2026-10-10T02:03:22.602Z",
+      "adminPassword": "c61dd52654",
+      "github": {
+        "repository": "fuilo-shop1",
+        "repositoryId": 1412644959,
+        "repositoryUrl": "https://github.com/one-wil/fuilo-shop1",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "fuilo-shop1",
+        "projectName": "fuilo-shop1",
+        "url": "https://fuilo-shop1.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "fuilo-shop1.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mv20jqq3wt2o",
+      "storeId": "6c9be45b-0d66-4af6-a61b-bc8359b6e7f7",
+      "clientId": "CL-mv1n1usyp441",
+      "name": "Sam-Youhoup",
+      "template": "dawn-dz",
+      "repo": "sam-youhoup",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "subscriptionType": "paid",
+      "trialUsed": false,
+      "activationDate": "2026-07-11",
+      "expirationDate": "2026-10-11",
+      "createdAt": "2026-10-10T06:28:35.981Z",
+      "adminPassword": "8359b6e7f7",
+      "github": {
+        "repository": "sam-youhoup",
+        "repositoryId": 1412847672,
+        "repositoryUrl": "https://github.com/one-wil/sam-youhoup",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "sam-youhoup",
+        "projectName": "sam-youhoup",
+        "url": "https://sam-youhoup.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "sam-youhoup.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mv214ol3lkxt",
+      "storeId": "d81b2693-2b15-4f76-8bbe-233e53b87795",
+      "clientId": "CL-muk6inhnggf7",
+      "name": "Hamingo",
+      "template": "dawn-dz",
+      "repo": "hamingo",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "subscriptionType": "paid",
+      "trialUsed": false,
+      "activationDate": "2026-07-11",
+      "expirationDate": "2026-10-11",
+      "createdAt": "2026-10-10T06:44:52.983Z",
+      "adminPassword": "3e53b87795",
+      "github": {
+        "repository": "hamingo",
+        "repositoryId": 1412861797,
+        "repositoryUrl": "https://github.com/one-wil/hamingo",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "hamingo",
+        "projectName": "hamingo",
+        "url": "https://hamingo.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "hamingo.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "ST-mv21ancr0xna",
+      "storeId": "4da98668-d29c-46a9-9385-07a2101dbe9b",
+      "clientId": "CL-muvovb9th9fl",
+      "name": "Sahla",
+      "template": "dawn-dz",
+      "repo": "sahla-shop",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "subscriptionType": "paid",
+      "trialUsed": false,
+      "activationDate": "2026-10-10",
+      "expirationDate": "2027-01-10",
+      "createdAt": "2026-10-10T06:49:31.324Z",
+      "adminPassword": "a2101dbe9b",
+      "github": {
+        "repository": "sahla-shop",
+        "repositoryId": 1412865843,
+        "repositoryUrl": "https://github.com/one-wil/sahla-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "sahla-shop",
+        "projectName": "sahla-shop",
+        "url": "https://sahla-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "active",
+        "error": null,
+        "subdomain": "sahla-shop.pages.dev"
+      }
+    },
+    {
+      "id": "ST-mv21r0pxnucd",
+      "storeId": "5373f0cc-e084-43a5-8f47-92a51eabc048",
+      "clientId": "CL-mu4bv8eyl60n",
+      "name": "Kayna",
+      "template": "dawn-dz",
+      "repo": "kayna",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "subscriptionType": "trial",
+      "trialUsed": true,
+      "activationDate": "2026-10-13",
+      "expirationDate": "2027-01-13",
+      "createdAt": "2026-10-10T07:02:15.141Z",
+      "adminPassword": "a51eabc048",
+      "github": {
+        "repository": "kayna",
+        "repositoryId": 1412878450,
+        "repositoryUrl": "https://github.com/one-wil/kayna",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "kayna",
+        "projectName": "kayna",
+        "url": "https://kayna-byr.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "kayna-byr.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      },
+      "reactivatedAt": "2026-10-11T22:32:42.976Z"
+    },
+    {
+      "id": "ST-mv21ybxh2aoh",
+      "storeId": "73951978-a7da-43d5-92f7-5c1c560bb59d",
+      "clientId": "CL-muadihytj6vj",
+      "name": "Kayn-shop",
+      "template": "dawn-dz",
+      "repo": "kayn-shop",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "subscriptionType": "paid",
+      "trialUsed": false,
+      "activationDate": "2026-10-11",
+      "expirationDate": "2027-01-11",
+      "createdAt": "2026-10-10T07:07:56.261Z",
+      "adminPassword": "1c560bb59d",
+      "github": {
+        "repository": "kayn-shop",
+        "repositoryId": 1412884533,
+        "repositoryUrl": "https://github.com/one-wil/kayn-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "kayn-shop",
+        "projectName": "kayn-shop",
+        "url": "https://kayn-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "kayn-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      },
+      "reactivatedAt": "2026-10-11T15:03:22.505Z"
+    },
+    {
+      "id": "ST-mv6vzwtl5gqp",
+      "storeId": "0a3c86f8-6eab-441c-a2fd-2cf3ff64353c",
+      "clientId": "CL-mv6vxryx5cz2",
+      "name": "Hy-Hlm",
+      "template": "dawn-dz",
+      "repo": "hy-hlm",
+      "status": "Active",
+      "subscriptionPlan": "6m",
+      "subscriptionPrice": 5000,
+      "subscriptionType": "trial",
+      "trialUsed": true,
+      "activationDate": "2026-10-17",
+      "expirationDate": "2027-04-17",
+      "createdAt": "2026-10-13T16:20:03.177Z",
+      "adminPassword": "f3ff64353c",
+      "github": {
+        "repository": "hy-hlm",
+        "repositoryId": 1417459026,
+        "repositoryUrl": "https://github.com/one-wil/hy-hlm",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "hy-hlm",
+        "projectName": "hy-hlm",
+        "url": "https://hy-hlm.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "hy-hlm.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      },
+      "reactivatedAt": "2026-10-13T16:26:49.033Z"
+    }
+  ],
+  "updatedAt": "2026-10-19T20:49:46.361Z"
 }
