@@ -78,11 +78,11 @@ body:not(.dashboard-authenticated) .app{display:none!important}
   <div class="field"><label>Client</label><select id="cClient" required></select></div>
   <div class="field"><label>Nom de la boutique (utilisé aussi comme nom du Repository)</label><input id="cStore" required placeholder="Ex: Ahmed Fashion"></div>
   <div class="field"><label>Template</label><select id="cTemplate"><option value="template1">dawn-dz</option><option value="template2">ShopLive</option><option value="template3">hassoun</option></select></div>
-  <div class="field"><label>نوع التفعيل</label><select id="cPlan" required onchange="syncCreateSubscriptionDates()"><option value="trial" selected>🎁 شهر تجريبي مجاني — 0 دج</option><option value="3m">3 أشهر — 3000 دج</option><option value="6m">6 أشهر — 5000 دج</option><option value="12m">12 شهرًا — 9000 دج</option></select></div>
-  <div class="field"><label>مبلغ الاشتراك</label><input id="cPlanPrice" value="5000 دج" readonly></div>
+  <div class="field"><label>نوع التفعيل</label><select id="cPlan" required onchange="syncCreateSubscriptionDates()"><option value="3m" selected>3 أشهر — 3000 دج</option><option value="6m">6 أشهر — 5000 دج</option><option value="12m">12 شهرًا — 9000 دج</option></select></div>
+  <div class="field"><label>مبلغ الاشتراك</label><input id="cPlanPrice" value="3000 دج" readonly></div>
   <div class="field"><label>تاريخ التفعيل</label><input id="cActivation" type="date" required onchange="syncCreateSubscriptionDates()"></div>
   <div class="field"><label>تاريخ انتهاء الصلاحية (يُحسب تلقائيًا)</label><input id="cExpiration" type="date" readonly required></div>
-  <div class="field full"><p class="note">سيُحفظ العرض وتاريخ التفعيل والانتهاء في ترخيص المتجر. يمكنك تعديل تاريخ التفعيل قبل الإنشاء إذا كان الاتفاق مع الزبون يبدأ في تاريخ آخر.</p></div>
+  <div class="field full"><p class="note">تُضاف 15 يومًا مجانية تلقائيًا إلى أول اشتراك للعميل مرة واحدة فقط. لا تظهر الفترة المجانية كخيار مستقل، ولا تتكرر عند الاشتراكات اللاحقة. يمكنك تعديل تاريخ التفعيل قبل الإنشاء إذا كان الاتفاق مع الزبون يبدأ في تاريخ آخر.</p></div>
  </div><div class="modalfoot"><button type="submit" class="btn primary" id="createBtn">🚀 Créer et déployer automatiquement</button></div></form>
  <div class="progress" id="progress"><b>⏳ Création en cours…</b><ol><li>Validation</li><li>Création Repository GitHub</li><li>Copie du Template</li><li>Création Cloudflare Pages</li><li>Connexion et déploiement</li></ol><div class="note">Veuillez attendre la réponse finale du Worker.</div></div></div>
 </section>
@@ -98,20 +98,41 @@ body:not(.dashboard-authenticated) .app{display:none!important}
 
 <div class="createLive" id="createLive"><div class="liveBox"><div class="liveHead"><div class="liveOrb" id="liveOrb">🚀</div><div><div class="liveTitle" id="liveTitle">Création intelligente</div><div class="liveSub" id="liveSub">Préparation des opérations sécurisées…</div></div></div><div class="liveBody"><div class="liveSteps" id="liveSteps"></div><div class="liveTimer"><span id="liveState">Initialisation…</span><span id="liveTime">00:00</span></div><div class="liveResult" id="liveResult"></div></div><div class="liveFoot"><button class="btn gold liveClose" id="liveClose" onclick="closeLive()">✓ Terminer</button></div></div></div>
 
+<script src="./config.js"></script>
 <script>
+const APP_CONFIG = window.STOREMASTER_CONFIG || {};
 const TEMPLATES=[{id:'template1',name:'dawn-dz',repo:'dawn-dz'},{id:'template2',name:'ShopLive',repo:'shoplive'},{id:'template3',name:'hassoun',repo:'hassoun'}];
 let db=JSON.parse(localStorage.getItem('storemaster_v62_db')||'{"clients":[],"stores":[]}');
 const settings=JSON.parse(localStorage.getItem('storemaster_v62_settings')||'{}');
 const $=id=>document.getElementById(id);
-function save(){localStorage.setItem('storemaster_v62_db',JSON.stringify(db))}
+let remoteSaveTimer=null,pendingConfigJsonSync=false;
+function persistMasterDataSoon(syncConfigJson=false){
+  if(syncConfigJson)pendingConfigJsonSync=true;
+  if(!settings.workerUrl||!settings.masterKey)return;
+  clearTimeout(remoteSaveTimer);
+  remoteSaveTimer=setTimeout(async()=>{
+    const syncConfigJsonNow=pendingConfigJsonSync;pendingConfigJsonSync=false;
+    try{await fetch(settings.workerUrl.replace(/\/$/,'')+'/api/master/data',{method:'POST',headers:{'Content-Type':'application/json','X-Master-Key':settings.masterKey},body:JSON.stringify({clients:db.clients,stores:db.stores,syncConfigJson:syncConfigJsonNow})});}
+    catch(e){console.warn('تعذر حفظ بيانات العملاء على Worker:',e);}
+  },900);
+}
+function save(syncConfigJson=false){localStorage.setItem('storemaster_v62_db',JSON.stringify(db));persistMasterDataSoon(syncConfigJson)}
 function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function uid(p){return p+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 const SUBSCRIPTION_PLANS={
-  'trial':{label:'شهر تجريبي مجاني',days:30,months:0,price:0},
   '3m':{label:'3 أشهر',months:3,price:3000},
   '6m':{label:'6 أشهر',months:6,price:5000},
   '12m':{label:'12 شهرًا',months:12,price:9000}
 };
+function selectedClient(){return db.clients.find(c=>c.id===$('cClient')?.value)||null}
+function hasPreviousSubscription(client){
+  if(!client)return false;
+  return db.stores.some(s=>s.clientId===client.id || (!s.clientId && String(s.client||s.clientName||'').trim().toLowerCase()===String(client.name||'').trim().toLowerCase()));
+}
+function previewExpirationDate(plan,activationDate,client){
+  const base=addMonthsToISO(activationDate,plan.months);
+  return addDaysISO(base,hasPreviousSubscription(client)?0:15);
+}
 function todayISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function addMonthsToISO(date,months){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(String(date||'')))return '';
@@ -122,11 +143,11 @@ function addMonthsToISO(date,months){
 }
 function addDaysISO(date,days){const d=new Date(String(date)+'T00:00:00Z');if(!Number.isFinite(d.getTime()))return todayISO();d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)}
 function syncCreateSubscriptionDates(){
-  const plan=SUBSCRIPTION_PLANS[$('cPlan')?.value]||SUBSCRIPTION_PLANS['6m'];
+  const plan=SUBSCRIPTION_PLANS[$('cPlan')?.value]||SUBSCRIPTION_PLANS['3m'];
   const activation=$('cActivation');
   if(activation&&!activation.value)activation.value=todayISO();
   if($('cPlanPrice'))$('cPlanPrice').value=plan.price.toLocaleString('fr-DZ')+' دج';
-  if($('cExpiration')){const start=activation?.value||todayISO();$('cExpiration').value=plan.days?addDaysISO(start,plan.days):addMonthsToISO(addDaysISO(start,30),plan.months);}
+  if($('cExpiration'))$('cExpiration').value=previewExpirationDate(plan,activation?.value||todayISO(),selectedClient());
 }
 function daysUntil(date){
   if(!date)return null;
@@ -161,11 +182,11 @@ function renderTemplates(){$('templatesGrid').innerHTML=TEMPLATES.map(t=>`<div c
 function renderSelects(){let cs=$('cClient');cs.innerHTML='<option value="">-- Choisir un client --</option>'+db.clients.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}
 function openClient(id=''){let c=db.clients.find(x=>x.id===id);$('clientModalTitle').textContent=c?'Modifier le client':'Nouveau client';$('clientId').value=c?.id||'';$('clientName').value=c?.name||'';$('clientEmail').value=c?.email||'';$('clientPhone').value=c?.phone||'';$('clientStatus').value=c?.status||'Active';$('clientModal').classList.add('show')}
 function editClient(id){openClient(id)}function closeModal(id){$(id).classList.remove('show')}
-$('clientForm').onsubmit=e=>{e.preventDefault();let id=$('clientId').value;if(id){Object.assign(db.clients.find(x=>x.id===id),{name:$('clientName').value,email:$('clientEmail').value,phone:$('clientPhone').value,status:$('clientStatus').value})}else db.clients.push({id:uid('CL'),name:$('clientName').value,email:$('clientEmail').value,phone:$('clientPhone').value,status:$('clientStatus').value});save();closeModal('clientModal');renderAll()}
+$('clientForm').onsubmit=e=>{e.preventDefault();let id=$('clientId').value;if(id){Object.assign(db.clients.find(x=>x.id===id),{name:$('clientName').value,email:$('clientEmail').value,phone:$('clientPhone').value,status:$('clientStatus').value})}else db.clients.push({id:uid('CL'),name:$('clientName').value,email:$('clientEmail').value,phone:$('clientPhone').value,status:$('clientStatus').value});save(true);closeModal('clientModal');renderAll()}
 function openCreate(){showPage('create')}
 function normalizeRepo(v){return String(v||'').trim().toLowerCase().replace(/[^a-z0-9-_]/g,'-').replace(/-+/g,'-').replace(/^-+|-+$/g,'')}
 $('cStore').addEventListener('input',()=>{const normalized=normalizeRepo($('cStore').value);$('cStore').dataset.repository=normalized})
-$('cActivation').value=todayISO();syncCreateSubscriptionDates();$('cPlan').addEventListener('change',syncCreateSubscriptionDates);$('cActivation').addEventListener('change',syncCreateSubscriptionDates);
+$('cActivation').value=todayISO();syncCreateSubscriptionDates();$('cPlan').addEventListener('change',syncCreateSubscriptionDates);$('cActivation').addEventListener('change',syncCreateSubscriptionDates);$('cClient').addEventListener('change',syncCreateSubscriptionDates);
 async function api(path,body,method='POST'){if(!settings.workerUrl||!settings.masterKey)throw new Error('Configurez URL Worker et MASTER_API_KEY dans Paramètres.');let r=await fetch(settings.workerUrl.replace(/\/$/,'')+path,{method,headers:{'Content-Type':'application/json','X-Master-Key':settings.masterKey},body:method==='GET'?undefined:JSON.stringify(body||{})});let d;try{d=await r.json()}catch{throw new Error('Réponse Worker invalide')}if(!r.ok||d.success===false)throw new Error(d.error||d.details?.message||d.details||'Erreur Worker');return d}
 
 const LIVE_STEPS=[['🔎','Validation des données'],['🔐','Création de la licence sécurisée'],['🐙','Création du Repository GitHub'],['📦','Copie du Template'],['☁️','Création du projet Cloudflare Pages'],['🌐','Recherche du lien officiel'],['✨','Finalisation']];
@@ -175,7 +196,7 @@ function openLive(){$('createLive').classList.add('show');$('liveClose').classLi
 function setLiveStep(i,state='active',note=''){if(liveStepIndex>=0&&liveStepIndex!==i){let p=$('liveStep'+liveStepIndex);if(p&&!p.classList.contains('fail')){p.classList.remove('active');p.classList.add('done');p.querySelector('.ico').textContent='✓'}}let el=$('liveStep'+i);if(!el)return;if(state==='active'){el.classList.add('active');el.classList.remove('done','fail');$('liveState').textContent=note||LIVE_STEPS[i][1]+'…';liveStepIndex=i}else if(state==='done'){el.classList.remove('active');el.classList.add('done');el.querySelector('.ico').textContent='✓'}else if(state==='fail'){el.classList.remove('active');el.classList.add('fail');el.querySelector('.ico').textContent='!'}}
 function closeLive(){clearInterval(liveTimerHandle);$('createLive').classList.remove('show')}
 async function resolveOfficialCloudflare(project,fallback){let fb=canonicalPagesUrl(fallback);try{for(let i=0;i<6;i++){let d=await api('/api/cloudflare/status?project='+encodeURIComponent(project),null,'GET');let u=canonicalPagesUrl(d.url||'');if(u&&d.exists)return {url:u,data:d};await new Promise(r=>setTimeout(r,1200))}}catch(e){}return {url:fb,data:null}}
-$('createForm').onsubmit=async e=>{e.preventDefault();if(!$('cClient').value)return alert('Veuillez choisir un client.');let name=$('cStore').value.trim(),repo=normalizeRepo(name);if(!name||!repo)return alert('Veuillez saisir un nom de boutique valide pour créer le Repository.');$('createBtn').disabled=true;$('progress').classList.add('show');openLive();setLiveStep(0,'active');let n=0;let seq=setInterval(()=>{if(n<5){setLiveStep(n,'done');n++;setLiveStep(n,'active')}},900);try{const planId=$('cPlan').value,plan=SUBSCRIPTION_PLANS[$('cPlan').value],activationDate=$('cActivation').value||todayISO(),expirationDate=plan?.days?addDaysISO(activationDate,plan.days):addMonthsToISO(activationDate,plan?.months);if(!plan||!activationDate||!expirationDate)throw new Error('يرجى اختيار عرض وتاريخ تفعيل صحيحين.');$('cExpiration').value=expirationDate;let d=await api('/api/store/create',{client:(db.clients.find(c=>c.id===$('cClient').value)?.name||''),storeName:name,repository:repo,template:$('cTemplate').value,subscriptionPlan:planId,subscriptionPrice:plan.price,subscriptionType:planId==='trial'?'trial':'paid',trialUsed:planId==='trial',activationDate,expirationDate});clearInterval(seq);setLiveStep(5,'active','Vérification du lien Cloudflare officiel…');let r=await resolveOfficialCloudflare(d.cloudflare?.project||repo,d.cloudflare?.url||'');setLiveStep(5,'done');setLiveStep(6,'active');let cf=r.data||{};let s={id:uid('ST'),storeId:d.license?.storeId||null,clientId:$('cClient').value,name,template:d.store?.template||$('cTemplate').value,repo:d.github?.repository||repo,status:d.license?.status==='pending'?'Pending':'Active',subscriptionPlan:planId,subscriptionPrice:plan.price,subscriptionType:planId==='trial'?'trial':'paid',trialUsed:!!d.license?.trialUsed||planId==='trial',includedTrial:!!d.license?.includedTrial,trialStartDate:d.license?.trialStartDate||null,trialEndDate:d.license?.trialEndDate||null,paidStartDate:d.license?.paidStartDate||null,activationDate:d.license?.activationDate||activationDate,expirationDate:d.license?.expirationDate||expirationDate,createdAt:new Date().toISOString(),adminPassword:d.identifiers?.adminPassword||'',github:d.github||{repositoryUrl:d.repositoryUrl},cloudflare:{project:cf.project||d.cloudflare?.projectName||d.cloudflare?.project||repo,projectName:cf.project||d.cloudflare?.projectName||d.cloudflare?.project||repo,url:canonicalPagesUrl(r.url||d.cloudflare?.url||''),created:!!d.cloudflare?.created,deploymentStatus:cf.status||(d.cloudflare?.error?'error':(d.cloudflare?.created?'created':'pending')),error:d.cloudflare?.error||null,subdomain:cf.subdomain||''}};db.stores.push(s);save();e.target.reset();$('progress').classList.remove('show');renderAll();setLiveStep(6,'done');clearInterval(liveTimerHandle);$('liveOrb').textContent='✓';$('liveTitle').textContent='Boutique créée avec succès';$('liveSub').textContent='Toutes les opérations ont été finalisées.';$('liveState').textContent='Processus terminé';$('liveResult').innerHTML=`<h3>✓ Informations de la boutique</h3><div class="resultGrid"><div class="resultItem"><b>BOUTIQUE</b><div class="resultValue">${esc(s.name)}</div></div><div class="resultItem"><b>REPOSITORY</b><div class="resultValue">${esc(s.repo)}</div></div><div class="resultItem"><b>PROJET CLOUDFLARE</b><div class="resultValue">${esc(s.cloudflare.project)}</div></div><div class="resultItem"><b>LIEN OFFICIEL</b><div class="resultValue">${s.cloudflare.url?`<a target="_blank" href="${esc(s.cloudflare.url)}">${esc(s.cloudflare.url)}</a>`:'En attente'}</div></div><div class="resultItem"><b>OFFRE</b><div class="resultValue">${esc(plan.label)} — ${plan.price.toLocaleString('fr-DZ')} دج</div></div><div class="resultItem"><b>ACTIVATION</b><div class="resultValue">${esc(activationDate)}</div></div><div class="resultItem"><b>EXPIRATION</b><div class="resultValue">${esc(expirationDate)}</div></div><div class="secretBox"><b>🔐 MOT DE PASSE ADMINISTRATEUR — 10 CARACTÈRES</b><code>${esc(s.adminPassword||'Non retourné')}</code></div></div>`;$('liveResult').classList.add('show');$('liveClose').classList.add('show')}catch(err){clearInterval(seq);$('progress').classList.remove('show');clearInterval(liveTimerHandle);if(liveStepIndex>=0)setLiveStep(liveStepIndex,'fail');$('liveOrb').textContent='!';$('liveTitle').textContent='Erreur de création';$('liveSub').textContent=err.message||String(err);$('liveResult').innerHTML='<h3 style="color:#ffd7d2">Erreur</h3><div>'+esc(err.message||String(err))+'</div>';$('liveResult').classList.add('show');$('liveClose').classList.add('show')}finally{$('createBtn').disabled=false}}
+$('createForm').onsubmit=async e=>{e.preventDefault();if(!$('cClient').value)return alert('Veuillez choisir un client.');let name=$('cStore').value.trim(),repo=normalizeRepo(name);if(!name||!repo)return alert('Veuillez saisir un nom de boutique valide pour créer le Repository.');$('createBtn').disabled=true;$('progress').classList.add('show');openLive();setLiveStep(0,'active');let n=0;let seq=setInterval(()=>{if(n<5){setLiveStep(n,'done');n++;setLiveStep(n,'active')}},900);try{const planId=$('cPlan').value,plan=SUBSCRIPTION_PLANS[planId],activationDate=$('cActivation').value||todayISO(),client=selectedClient(),previewExpiration=plan?previewExpirationDate(plan,activationDate,client):'';if(!plan||!activationDate||!previewExpiration)throw new Error('يرجى اختيار باقة مدفوعة وتاريخ تفعيل صحيحين.');$('cExpiration').value=previewExpiration;let d=await api('/api/store/create',{client:(client?.name||''),clientId:(client?.id||''),clientEmail:(client?.email||''),clientPhone:(client?.phone||''),storeName:name,repository:repo,template:$('cTemplate').value,subscriptionPlan:planId,subscriptionPrice:plan.price,subscriptionType:'paid',activationDate});const expirationDate=d.license?.expirationDate||previewExpiration;$('cExpiration').value=expirationDate;clearInterval(seq);setLiveStep(5,'active','Vérification du lien Cloudflare officiel…');let r=await resolveOfficialCloudflare(d.cloudflare?.project||repo,d.cloudflare?.url||'');setLiveStep(5,'done');setLiveStep(6,'active');let cf=r.data||{};let s={id:uid('ST'),storeId:d.license?.storeId||null,clientId:$('cClient').value,name,template:d.store?.template||$('cTemplate').value,repo:d.github?.repository||repo,status:d.license?.status==='pending'?'Pending':'Active',subscriptionPlan:planId,subscriptionPrice:plan.price,subscriptionType:'paid',trialUsed:!!d.license?.trialUsed,trialBonusDays:Number(d.license?.trialBonusDays||0),clientName:client?.name||'',activationDate,expirationDate,createdAt:new Date().toISOString(),adminPassword:d.identifiers?.adminPassword||'',github:d.github||{repositoryUrl:d.repositoryUrl},cloudflare:{project:cf.project||d.cloudflare?.projectName||d.cloudflare?.project||repo,projectName:cf.project||d.cloudflare?.projectName||d.cloudflare?.project||repo,url:canonicalPagesUrl(r.url||d.cloudflare?.url||''),created:!!d.cloudflare?.created,deploymentStatus:cf.status||(d.cloudflare?.error?'error':(d.cloudflare?.created?'created':'pending')),error:d.cloudflare?.error||null,subdomain:cf.subdomain||''}};db.stores.push(s);save();e.target.reset();$('progress').classList.remove('show');renderAll();setLiveStep(6,'done');clearInterval(liveTimerHandle);$('liveOrb').textContent='✓';$('liveTitle').textContent='Boutique créée avec succès';$('liveSub').textContent='Toutes les opérations ont été finalisées.';$('liveState').textContent='Processus terminé';$('liveResult').innerHTML=`<h3>✓ Informations de la boutique</h3><div class="resultGrid"><div class="resultItem"><b>BOUTIQUE</b><div class="resultValue">${esc(s.name)}</div></div><div class="resultItem"><b>REPOSITORY</b><div class="resultValue">${esc(s.repo)}</div></div><div class="resultItem"><b>PROJET CLOUDFLARE</b><div class="resultValue">${esc(s.cloudflare.project)}</div></div><div class="resultItem"><b>LIEN OFFICIEL</b><div class="resultValue">${s.cloudflare.url?`<a target="_blank" href="${esc(s.cloudflare.url)}">${esc(s.cloudflare.url)}</a>`:'En attente'}</div></div><div class="resultItem"><b>OFFRE</b><div class="resultValue">${esc(plan.label)}${Number(d.license?.trialBonusDays||0)>0?' + 15 يومًا مجانية لأول اشتراك':''} — ${plan.price.toLocaleString('fr-DZ')} دج</div></div><div class="resultItem"><b>ACTIVATION</b><div class="resultValue">${esc(activationDate)}</div></div><div class="resultItem"><b>EXPIRATION</b><div class="resultValue">${esc(expirationDate)}</div></div><div class="secretBox"><b>🔐 MOT DE PASSE ADMINISTRATEUR — 10 CARACTÈRES</b><code>${esc(s.adminPassword||'Non retourné')}</code></div></div>`;$('liveResult').classList.add('show');$('liveClose').classList.add('show')}catch(err){clearInterval(seq);$('progress').classList.remove('show');clearInterval(liveTimerHandle);if(liveStepIndex>=0)setLiveStep(liveStepIndex,'fail');$('liveOrb').textContent='!';$('liveTitle').textContent='Erreur de création';$('liveSub').textContent=err.message||String(err);$('liveResult').innerHTML='<h3 style="color:#ffd7d2">Erreur</h3><div>'+esc(err.message||String(err))+'</div>';$('liveResult').classList.add('show');$('liveClose').classList.add('show')}finally{$('createBtn').disabled=false}}
 
 function encodeSharePayload(obj){
   const bytes=new TextEncoder().encode(JSON.stringify(obj));
@@ -300,6 +321,25 @@ if(!renderSharedStore(sharedParam?decodeSharePayload(sharedParam):null)) renderA
     }
   });
 })();
+
+async function loadMasterData(){
+  let localHadData=!!(db.clients.length||db.stores.length);
+  if(settings.workerUrl&&settings.masterKey){
+    try{
+      const r=await fetch(settings.workerUrl.replace(/\/$/,'')+'/api/master/data',{headers:{'X-Master-Key':settings.masterKey,'Accept':'application/json'}});
+      const out=await r.json();
+      if(r.ok&&out.success&&out.data){
+        const remote=out.data;
+        if((remote.clients||[]).length||(remote.stores||[]).length){db={clients:Array.isArray(remote.clients)?remote.clients:[],stores:Array.isArray(remote.stores)?remote.stores:[]};localStorage.setItem('storemaster_v62_db',JSON.stringify(db));renderAll();return;}
+        if(localHadData){persistMasterDataSoon(true);return;}
+      }
+    }catch(e){console.warn('تعذر تحميل بيانات العملاء من Worker:',e);}
+  }
+  if(!localHadData){
+    try{const data=APP_CONFIG.dataPromise?await APP_CONFIG.dataPromise:(await fetch(APP_CONFIG.dataFile||'./config.json',{cache:'no-store'})).json();if(data&&(Array.isArray(data.clients)||Array.isArray(data.stores))){db={clients:Array.isArray(data.clients)?data.clients:[],stores:Array.isArray(data.stores)?data.stores:[]};localStorage.setItem('storemaster_v62_db',JSON.stringify(db));renderAll();}}catch(e){}
+  }
+}
+loadMasterData();
 </script>
 
 </body></html>
