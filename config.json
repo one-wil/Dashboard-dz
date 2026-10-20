@@ -6,20 +6,6 @@
       "email": "ahcene.2008@gmail.com",
       "phone": "0551102155",
       "status": "Active"
-    },
-    {
-      "id": "CL-mvfsbrk929gi",
-      "name": "Qs-dz",
-      "email": "",
-      "phone": "",
-      "status": "Active"
-    },
-    {
-      "id": "CL-mvfz086cdzz6",
-      "name": "Khaouid",
-      "email": "",
-      "phone": "",
-      "status": "Active"
     }
   ],
   "stores": [
@@ -898,5 +884,5 @@
       }
     }
   ],
-  "updatedAt": "2026-10-20T19:47:42.017Z"
+  "updatedAt": "2026-10-20T19:48:24.050Z"
 }
