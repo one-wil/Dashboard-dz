@@ -36,6 +36,12 @@ body:not(.dashboard-authenticated) .app{display:none!important}
 .passwordError{min-height:20px;margin-top:12px;color:#c0392b;font-size:13px}
 </style>
 
+
+<style id="storemaster-zoom-55">
+/* Zoom global à 55 % */
+body { zoom: 0.55; }
+</style>
+
 </head>
 <body>
 
@@ -60,6 +66,7 @@ body:not(.dashboard-authenticated) .app{display:none!important}
   <button data-page="templates">🎨 <span>Templates</span></button>
   <button data-page="create">➕ <span>Créer une boutique</span></button>
   <button data-page="settings">⚙️ <span>Paramètres</span></button>
+  <button data-page="cleanup">🧹 <span>تنظيف الموارد</span></button>
  </nav>
  <div class="sidefoot">Worker V8.1 • Cloudflare Pages</div>
 </aside>
@@ -89,7 +96,27 @@ body:not(.dashboard-authenticated) .app{display:none!important}
 <section id="settings" class="page hidden">
  <div class="top"><div><h2>⚙️ Paramètres</h2><p>Configuration du Dashboard central.</p></div></div>
  <div class="card"><h3>🔐 Connexion au Worker</h3><div class="formgrid"><div class="field full"><label>URL du Worker</label><input id="workerUrl" placeholder="https://votre-worker.workers.dev"></div><div class="field full"><label>MASTER_API_KEY</label><input id="masterKey" type="password" placeholder="Clé administrateur"></div></div><div class="modalfoot"><button class="btn primary" onclick="saveSettings()">💾 Enregistrer</button><button class="btn gold" onclick="testWorker()">🔌 Tester la connexion</button></div><div class="statusline connection"><span class="dot" id="connDot"></span><span id="connText">Non testé</span></div><p class="note">La clé est utilisée uniquement pour communiquer avec votre Worker. Elle n'est jamais envoyée à GitHub ou Cloudflare directement.</p></div>
- <div class="card"><h3>💾 Données locales</h3><button class="btn light" onclick="exportData()">⬇️ Exporter</button> <button class="btn gold" onclick="importData()">📥 جلب البيانات</button> <button class="btn danger" onclick="resetData()">🗑️ Réinitialiser</button><input id="importDataFile" type="file" accept=".json,application/json" class="hidden" onchange="handleDataImport(event)"><p class="note" style="margin-top:10px">استرجاع بيانات العملاء والمتاجر من ملف النسخة الاحتياطية JSON الذي تم تصديره سابقًا.</p></div>
+ <div class="card"><h3>💾 مزامنة بيانات GitHub</h3><button class="btn primary" id="saveGitHubDataBtn" onclick="saveDataToGitHub()">💾 حفظ البيانات</button> <button class="btn gold" id="fetchGitHubDataBtn" onclick="fetchDataFromGitHub()">📥 جلب البيانات من GitHub</button> <button class="btn danger" onclick="resetData()">🗑️ Réinitialiser</button><p class="note" style="margin-top:10px">زر «حفظ البيانات» يرسل أحدث بيانات العملاء والمتاجر إلى Worker ليحدّث ملف البيانات في GitHub بدل النسخة القديمة. زر «جلب البيانات من GitHub» يسترجع الملف المنشور ويستبدل البيانات المحلية به.</p><div class="statusline" id="dataSyncStatus" aria-live="polite"></div></div>
+
+</section>
+
+<section id="cleanup" class="page hidden">
+ <div class="top"><div><h2>🧹 تنظيف الموارد</h2><p>إدارة مستودعات GitHub ومشاريع Cloudflare Pages مع رمز سري محفوظ في Cloudflare.</p></div><button class="btn gold" id="scanCleanupBtn" onclick="scanCleanupResources()">🔄 فحص الموارد</button></div>
+ <div class="card">
+  <h3>⚠️ قبل الحذف</h3>
+  <p class="note">تظهر الموارد المرتبطة بسجلات المتاجر والموارد التي لا يظهر أنها مرتبطة. يمكنك اختيار أي مورد غير محمي يدويًا. الحذف نهائي من الخدمة المحددة، ولا يحذف بيانات العملاء أو سجلات الترخيص في KV.</p>
+  <div class="toolbar"><label><input type="checkbox" id="showOrphansOnly" onchange="renderCleanupResources()"> عرض الموارد القديمة/غير المرتبطة فقط</label><span id="cleanupCount" class="note"></span></div>
+  <div id="cleanupResources"><div class="empty">اضغط «فحص الموارد» لجلب القائمة من GitHub وCloudflare.</div></div>
+  <div class="modalfoot"><button class="btn primary" id="requestCleanupCodeBtn" onclick="requestCleanupCode()">🔐 المتابعة إلى التحقق</button></div>
+  <div id="cleanupCodePanel" class="card hidden" style="margin-top:16px;background:#fffaf0">
+   <h3>🔐 تأكيد الحذف بالرمز السري</h3>
+   <p class="note">أدخل الرمز الذي أنشأته أنت وحفظته في Cloudflare Worker ضمن Secret باسم <b>CLEANUP_DELETE_CODE</b>. لا يُرسل الرمز بالبريد ولا يُخزّن داخل ملف HTML.</p>
+   <div class="formgrid"><div class="field"><label>رمز الحذف السري</label><input id="cleanupCode" type="password" autocomplete="off" maxlength="200" placeholder="أدخل الرمز السري"></div></div>
+   <div class="modalfoot"><button class="btn danger" id="confirmCleanupBtn" onclick="confirmCleanupDelete()">🗑️ تأكيد الحذف النهائي</button><button class="btn light" onclick="cancelCleanupCode()">إلغاء</button></div>
+  </div>
+  <div class="statusline" id="cleanupStatus" aria-live="polite"></div>
+  <div id="cleanupResults"></div>
+ </div>
 </section>
 </main></div>
 
@@ -176,18 +203,115 @@ document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showPage(b.dat
 function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));renderAll()}
 function renderAll(){renderStats();renderClients();renderStores();renderTemplates();renderSelects()}
 function renderStats(){$('statClients').textContent=db.clients.length;$('statStores').textContent=db.stores.length;$('statActive').textContent=db.stores.filter(s=>effectiveStoreStatus(s)==='Active').length;let rs=[...db.stores].slice(-5).reverse();$('recentStores').innerHTML=rs.length?`<table><tr><th>Boutique</th><th>Statut</th><th>Cloudflare</th></tr>${rs.map(s=>`<tr><td>${esc(s.name)}</td><td>${statusBadge(s.status)}</td><td>${s.cloudflare?.url?`<a target="_blank" href="${esc(canonicalPagesUrl(s.cloudflare.url))}">Ouvrir</a>`:'—'}</td></tr>`).join('')}</table>`:'<div class="empty">Aucune boutique.</div>';$('statWorker').textContent=settings.workerUrl?'Configuré':'—'}
-function renderClients(q=''){q=q.toLowerCase();let a=db.clients.filter(c=>(c.name+c.email+c.phone).toLowerCase().includes(q));$('clientsTable').innerHTML=a.length?`<table><tr><th>Client</th><th>Email</th><th>Boutiques</th><th></th></tr>${a.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${esc(c.email||'-')}</td><td>${db.stores.filter(s=>s.clientId===c.id).length}</td><td><button class="mini" onclick="editClient('${c.id}')">✏️</button></td></tr>`).join('')}</table>`:'<div class="empty">Aucun client.</div>'}
+function renderClients(q=''){q=q.toLowerCase();let a=db.clients.filter(c=>(c.name+c.email+c.phone).toLowerCase().includes(q));$('clientsTable').innerHTML=a.length?`<table><tr><th>Client</th><th>Email</th><th>Boutiques</th><th></th></tr>${a.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${esc(c.email||'-')}</td><td>${db.stores.filter(s=>s.clientId===c.id).length}</td><td><div class="actions"><button class="mini" title="Modifier le client" onclick="editClient('${c.id}')">✏️</button><button class="mini danger" title="Supprimer le client" onclick="deleteClient('${c.id}')">🗑️</button></div></td></tr>`).join('')}</table>`:'<div class="empty">Aucun client.</div>'}
 function renderStores(q=''){q=q.toLowerCase();let a=db.stores.filter(s=>(s.name+s.repo+s.template).toLowerCase().includes(q));$('storesTable').innerHTML=a.length?`<table><tr><th>Boutique</th><th class="hideMob">Repository</th><th>Cloudflare</th><th>Expiration</th><th>Actions</th><th>Statut</th></tr>${a.map(s=>`<tr><td><b>${esc(s.name)}</b></td><td class="hideMob">${esc(s.repo||'—')}</td><td>${s.cloudflare?.url?`<a target="_blank" href="${esc(canonicalPagesUrl(s.cloudflare.url))}">pages.dev</a>`:'—'}</td><td>${expiryLabel(s)}</td><td><div class="actions"><button class="mini" title="Créer et ouvrir le lien de partage" onclick="shareStore('${s.id}')">👁️</button><button class="mini" title="Vérifier Cloudflare" onclick="checkCloudflare('${s.id}')">☁️</button></div></td><td>${statusBadge(s)}</td></tr>`).join('')}</table>`:'<div class="empty">Aucune boutique.</div>'}
 function renderTemplates(){$('templatesGrid').innerHTML=TEMPLATES.map(t=>`<div class="template"><div class="preview">${t.name}</div><div class="body"><h3>${t.name}</h3><p>Template configuré dans Worker V8.1</p><button class="btn primary" onclick="selectTemplate('${t.id}')">Choisir</button></div></div>`).join('')}
 function renderSelects(){let cs=$('cClient');cs.innerHTML='<option value="">-- Choisir un client --</option>'+db.clients.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}
 function openClient(id=''){let c=db.clients.find(x=>x.id===id);$('clientModalTitle').textContent=c?'Modifier le client':'Nouveau client';$('clientId').value=c?.id||'';$('clientName').value=c?.name||'';$('clientEmail').value=c?.email||'';$('clientPhone').value=c?.phone||'';$('clientStatus').value=c?.status||'Active';$('clientModal').classList.add('show')}
-function editClient(id){openClient(id)}function closeModal(id){$(id).classList.remove('show')}
+function editClient(id){openClient(id)}
+function deleteClient(id){
+  const client=db.clients.find(c=>c.id===id);
+  if(!client)return;
+  const linkedStores=db.stores.filter(s=>s.clientId===id).length;
+  const extra=linkedStores?`\\n\\nتنبيه: لهذا العميل ${linkedStores} متجر/متاجر مرتبطة. ستبقى المتاجر محفوظة ولن تُحذف.`:'';
+  if(!confirm(`هل تريد حذف بيانات العميل «${client.name||''}»؟${extra}\\n\\nسيتم حفظ التغيير في Worker ومزامنته مع GitHub.`))return;
+  db.clients=db.clients.filter(c=>c.id!==id);
+  save(true);
+  renderAll();
+  setDataSyncStatus?.('تم حذف العميل محليًا وإرسال طلب مزامنة إلى Worker. تحقق من GitHub للتأكد من اكتمال الحفظ.',true);
+}
+function closeModal(id){$(id).classList.remove('show')}
 $('clientForm').onsubmit=e=>{e.preventDefault();let id=$('clientId').value;if(id){Object.assign(db.clients.find(x=>x.id===id),{name:$('clientName').value,email:$('clientEmail').value,phone:$('clientPhone').value,status:$('clientStatus').value})}else db.clients.push({id:uid('CL'),name:$('clientName').value,email:$('clientEmail').value,phone:$('clientPhone').value,status:$('clientStatus').value});save(true);closeModal('clientModal');renderAll()}
 function openCreate(){showPage('create')}
 function normalizeRepo(v){return String(v||'').trim().toLowerCase().replace(/[^a-z0-9-_]/g,'-').replace(/-+/g,'-').replace(/^-+|-+$/g,'')}
 $('cStore').addEventListener('input',()=>{const normalized=normalizeRepo($('cStore').value);$('cStore').dataset.repository=normalized})
 $('cActivation').value=todayISO();syncCreateSubscriptionDates();$('cPlan').addEventListener('change',syncCreateSubscriptionDates);$('cActivation').addEventListener('change',syncCreateSubscriptionDates);$('cClient').addEventListener('change',syncCreateSubscriptionDates);
-async function api(path,body,method='POST'){if(!settings.workerUrl||!settings.masterKey)throw new Error('Configurez URL Worker et MASTER_API_KEY dans Paramètres.');let r=await fetch(settings.workerUrl.replace(/\/$/,'')+path,{method,headers:{'Content-Type':'application/json','X-Master-Key':settings.masterKey},body:method==='GET'?undefined:JSON.stringify(body||{})});let d;try{d=await r.json()}catch{throw new Error('Réponse Worker invalide')}if(!r.ok||d.success===false)throw new Error(d.error||d.details?.message||d.details||'Erreur Worker');return d}
+async function api(path,body,method='POST'){if(!settings.workerUrl||!settings.masterKey)throw new Error('Configurez URL Worker et MASTER_API_KEY dans Paramètres.');let r=await fetch(settings.workerUrl.replace(/\/$/,'')+path,{method,headers:{'Content-Type':'application/json','X-Master-Key':settings.masterKey},body:method==='GET'?undefined:JSON.stringify(body||{})});let d;try{d=await r.json()}catch{throw new Error('Réponse Worker invalide')}if(!r.ok||d.success===false){
+  const detail = typeof d.details === 'string' ? d.details : (d.details?.message || '');
+  throw new Error([d.error, detail].filter(Boolean).join(' — ') || 'Erreur Worker');
+}return d}
+
+
+let cleanupResources=[];
+let cleanupRequestId='';
+function cleanupStatus(message,ok=false){
+  const el=$('cleanupStatus');
+  if(el){el.textContent=message;el.style.color=ok?'var(--ok)':'var(--danger)';}
+}
+function renderCleanupResources(){
+  const root=$('cleanupResources');if(!root)return;
+  const onlyOrphans=!!$('showOrphansOnly')?.checked;
+  const rows=cleanupResources.filter(x=>!onlyOrphans||x.orphan);
+  $('cleanupCount').textContent=`${rows.length} مورد معروض`;
+  if(!rows.length){root.innerHTML='<div class="empty">لا توجد موارد في هذه القائمة. اضغط «فحص الموارد» للتحديث.</div>';return;}
+  root.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>اختيار</th><th>الخدمة</th><th>اسم المورد</th><th>الرابط</th><th>الارتباط</th><th>الحالة</th></tr></thead><tbody>${rows.map((r,i)=>{
+    const id=encodeURIComponent(r.type+':'+r.name);
+    const badge=r.orphan?'<span class="badge warn">غير مرتبط</span>':'<span class="badge ok">مرتبط</span>';
+    const protectedText=r.protected?'محمي — لا يمكن حذفه':'قابل للاختيار';
+    return `<tr><td><input class="cleanupPick" type="checkbox" value="${esc(id)}" ${r.protected?'disabled':''} aria-label="اختيار ${esc(r.name)}"></td><td>${r.type==='github'?'GitHub':'Cloudflare Pages'}</td><td><b>${esc(r.name)}</b></td><td>${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">فتح الرابط</a>`:'—'}</td><td>${badge}</td><td>${esc(protectedText)}</td></tr>`;
+  }).join('')}</tbody></table></div>`;
+}
+async function scanCleanupResources(preserveResults=false){
+  const btn=$('scanCleanupBtn');if(btn){btn.disabled=true;btn.textContent='⏳ جارٍ الفحص…';}
+  cleanupStatus('جارٍ جلب قائمة الموارد ومقارنتها ببيانات المتاجر…');
+  try{
+    const d=await api('/api/master/cleanup/scan',{},'GET');
+    cleanupResources=Array.isArray(d.resources)?d.resources:[];
+    renderCleanupResources();
+    if(!preserveResults)$('cleanupResults').innerHTML='';
+    cleanupStatus(`اكتمل الفحص: ${cleanupResources.length} مورد. راجع الأسماء والروابط قبل اختيار أي مورد.`,true);
+  }catch(e){cleanupStatus('تعذر فحص الموارد: '+(e.message||String(e)));}
+  finally{if(btn){btn.disabled=false;btn.textContent='🔄 فحص الموارد';}}
+}
+function selectedCleanupTargets(){
+  return [...document.querySelectorAll('.cleanupPick:checked')].map(el=>{
+    const decoded=decodeURIComponent(el.value);const p=decoded.indexOf(':');
+    return {type:decoded.slice(0,p),name:decoded.slice(p+1)};
+  });
+}
+async function requestCleanupCode(){
+  const targets=selectedCleanupTargets();
+  if(!targets.length){alert('اختر موردًا واحدًا على الأقل، مع التأكد من اسمه ورابطه.');return;}
+  const list=targets.map(t=>`${t.type==='github'?'GitHub':'Cloudflare'}: ${t.name}`).join('\n');
+  if(!confirm(`ستطلب رمز تحقق لحذف الموارد التالية نهائيًا:\n\n${list}\n\nهل تريد المتابعة؟`))return;
+  const btn=$('requestCleanupCodeBtn');if(btn){btn.disabled=true;btn.textContent='⏳ جارٍ الإرسال…';}
+  cleanupStatus('جارٍ تجهيز طلب الحذف والتحقق من إعدادات Worker…');
+  try{
+    const d=await api('/api/master/cleanup/request-code',{targets});
+    cleanupRequestId=d.requestId||'';
+    if(!cleanupRequestId)throw new Error('لم يُرجع Worker معرّف طلب التحقق.');
+    $('cleanupCodePanel').classList.remove('hidden');
+    $('cleanupCode').value='';
+    cleanupStatus('أدخل الرمز السري المحفوظ في Cloudflare لتأكيد الحذف.',true);
+    $('cleanupCode').focus();
+  }catch(e){cleanupStatus('تعذر تجهيز طلب الحذف: '+(e.message||String(e)));}
+  finally{if(btn){btn.disabled=false;btn.textContent='🔐 المتابعة إلى التحقق';}}
+}
+function cancelCleanupCode(){
+  cleanupRequestId='';
+  $('cleanupCodePanel').classList.add('hidden');
+  $('cleanupCode').value='';
+  cleanupStatus('تم إلغاء طلب الحذف. لم تُحذف أي موارد.',true);
+}
+async function confirmCleanupDelete(){
+  const code=$('cleanupCode').value.trim();
+  if(!cleanupRequestId){alert('اطلب رمز تحقق جديدًا أولًا.');return;}
+  if(!code || code.length < 12){alert('أدخل الرمز السري الصحيح (12 حرفًا على الأقل).');return;}
+  const targets=selectedCleanupTargets();
+  if(!confirm(`هذا الإجراء نهائي. سيتم حذف الموارد المحددة التي وافق عليها Worker عند طلب الرمز. هل تؤكد الحذف؟`))return;
+  const btn=$('confirmCleanupBtn');if(btn){btn.disabled=true;btn.textContent='⏳ جارٍ الحذف…';}
+  cleanupStatus('جارٍ التحقق من الرمز وتنفيذ الحذف في الخدمات…');
+  try{
+    const d=await api('/api/master/cleanup/confirm',{requestId:cleanupRequestId,code});
+    cleanupRequestId='';
+    $('cleanupCodePanel').classList.add('hidden');
+    const resultHtml=`<div class="card" style="margin-top:12px"><h3>نتائج عملية التنظيف</h3><ul>${(d.results||[]).map(x=>`<li>${x.success?'✓':'✗'} <b>${esc(x.type==='github'?'GitHub':'Cloudflare Pages')} — ${esc(x.name)}</b>: ${esc(x.message|| (x.success?'تم الحذف':'فشل الحذف'))}</li>`).join('')}</ul></div>`;
+    await scanCleanupResources(true);
+    $('cleanupResults').innerHTML=resultHtml;
+    cleanupStatus(d.allSucceeded?'تم حذف جميع الموارد المحددة بنجاح.':'انتهت العملية؛ راجع نتيجة كل مورد أدناه.',!!d.allSucceeded);
+  }catch(e){cleanupStatus('تعذر تأكيد الحذف: '+(e.message||String(e)));}
+  finally{if(btn){btn.disabled=false;btn.textContent='🗑️ تأكيد الحذف النهائي';}}
+}
 
 const LIVE_STEPS=[['🔎','Validation des données'],['🔐','Création de la licence sécurisée'],['🐙','Création du Repository GitHub'],['📦','Copie du Template'],['☁️','Création du projet Cloudflare Pages'],['🌐','Recherche du lien officiel'],['✨','Finalisation']];
 let liveTimerHandle=null,liveStart=0,liveStepIndex=-1;
@@ -275,24 +399,76 @@ async function checkCloudflare(id){let s=db.stores.find(x=>x.id===id);try{let d=
 function selectTemplate(id){openCreate();setTimeout(()=>$('cTemplate').value=id,30)}
 function saveSettings(){settings.workerUrl=$('workerUrl').value.trim().replace(/\/$/,'');settings.masterKey=$('masterKey').value.trim();localStorage.setItem('storemaster_v62_settings',JSON.stringify(settings));alert('Paramètres enregistrés.')}
 async function testWorker(){try{let url=$('workerUrl').value.trim().replace(/\/$/,'');if(!url)throw new Error('URL Worker manquante');let r=await fetch(url+'/health');let d=await r.json();if(!r.ok||d.success===false)throw new Error(d.error||'Worker indisponible');$('connDot').className='dot on';$('connText').textContent=`Connecté • ${d.service||'StoreMaster Worker'} • V${d.version||'8.1'} • ${d.status||'online'}`;settings.workerUrl=url;localStorage.setItem('storemaster_v62_settings',JSON.stringify(settings))}catch(e){$('connDot').className='dot off';$('connText').textContent='Erreur : '+e.message}}
-function exportData(){let b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='storemaster-V8.1-data.json';a.click();URL.revokeObjectURL(a.href)}
-function importData(){const f=$('importDataFile');if(f){f.value='';f.click()}}
-function handleDataImport(event){
-  const file=event.target.files?.[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=()=>{
+function setDataSyncStatus(message,ok=false){
+  const el=$('dataSyncStatus');
+  if(el){el.textContent=message;el.style.color=ok?'var(--ok)':'var(--danger)';}
+}
+async function saveDataToGitHub(){
+  const btn=$('saveGitHubDataBtn');
+  if(!settings.workerUrl||!settings.masterKey){
+    setDataSyncStatus('يرجى أولًا حفظ URL العامل ومفتاح MASTER_API_KEY في الإعدادات.');
+    alert('يرجى إعداد اتصال Worker أولًا من قسم الإعدادات.');
+    return;
+  }
+  if(!confirm('سيتم حفظ بيانات العملاء والمتاجر الحالية في GitHub عبر Worker واستبدال ملف البيانات السابق بالنسخة الجديدة. هل تريد المتابعة؟'))return;
+  const previous=btn?.textContent;
+  if(btn){btn.disabled=true;btn.textContent='⏳ جارٍ الحفظ…';}
+  setDataSyncStatus('جارٍ إرسال أحدث البيانات إلى Worker لتحديث ملف GitHub…');
+  try{
+    const response=await fetch(settings.workerUrl.replace(/\/$/,'')+'/api/master/data',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Master-Key':settings.masterKey},
+      body:JSON.stringify({clients:db.clients,stores:db.stores,syncConfigJson:true})
+    });
+    let result={};try{result=await response.json()}catch{}
+    if(!response.ok||result.success===false)throw new Error(result.error||result.message||('HTTP '+response.status));
+    localStorage.setItem('storemaster_v62_db',JSON.stringify(db));
+    setDataSyncStatus('✓ تم إرسال البيانات بنجاح إلى Worker ليتولى تحديث ملف GitHub. تحقق من استجابة العامل إذا لم يظهر الملف الجديد.',true);
+    alert('تم إرسال البيانات إلى Worker بنجاح. يفترض أن يقوم العامل بتحديث ملف البيانات في GitHub واستبدال النسخة السابقة إذا كان مسار المزامنة مفعّلًا.');
+  }catch(error){
+    setDataSyncStatus('تعذر حفظ البيانات في GitHub: '+(error.message||String(error)));
+    alert('تعذر حفظ البيانات في GitHub: '+(error.message||String(error)));
+  }finally{if(btn){btn.disabled=false;btn.textContent=previous||'💾 حفظ البيانات';}}
+}
+async function fetchDataFromGitHub(){
+  const btn=$('fetchGitHubDataBtn');
+  if(!confirm('سيتم جلب ملف البيانات المنشور في GitHub واستبدال البيانات المحلية الحالية به. هل تريد المتابعة؟'))return;
+  const previous=btn?.textContent;
+  if(btn){btn.disabled=true;btn.textContent='⏳ جارٍ الجلب…';}
+  setDataSyncStatus('جارٍ جلب ملف البيانات المنشور…');
+  try{
+    let imported=null,source='';
+    const configuredFileUrl=APP_CONFIG.dataFile||'';
+    const fileUrl=(/^https?:\/\//i.test(configuredFileUrl))
+      ? configuredFileUrl
+      : 'https://raw.githubusercontent.com/one-wil/Dashboard-dz/main/config.json';
     try{
-      const imported=JSON.parse(String(reader.result||''));
-      if(!imported||!Array.isArray(imported.clients)||!Array.isArray(imported.stores))throw new Error('صيغة الملف غير صحيحة. اختر ملف النسخة الاحتياطية JSON الصادر عن STOREMASTER.');
-      if(!confirm('سيتم استبدال البيانات المحلية الحالية بالبيانات الموجودة في الملف. هل تريد المتابعة؟'))return;
-      db={clients:imported.clients,stores:imported.stores};
-      save();renderAll();
-      alert('تم جلب البيانات واستعادتها بنجاح.');
-    }catch(err){alert(err.message||'تعذر قراءة ملف البيانات.')}
-    finally{event.target.value=''}
-  };
-  reader.onerror=()=>alert('تعذر قراءة الملف المحدد.');
-  reader.readAsText(file);
+      const r=await fetch(fileUrl+(fileUrl.includes('?')?'&':'?')+'_ts='+Date.now(),{cache:'no-store'});
+      if(r.ok){
+        const candidate=await r.json();
+        if(candidate&&Array.isArray(candidate.clients)&&Array.isArray(candidate.stores)){imported=candidate;source='ملف GitHub المنشور ('+fileUrl+')';}
+      }
+    }catch(_){}
+    if(!imported){
+      if(!settings.workerUrl||!settings.masterKey)throw new Error('لم أستطع قراءة ملف GitHub، ولم يتم إعداد Worker لاسترجاع نسخة البيانات.');
+      const r=await fetch(settings.workerUrl.replace(/\/$/,'')+'/api/master/data',{
+        headers:{'X-Master-Key':settings.masterKey,'Accept':'application/json','Cache-Control':'no-cache'}
+      });
+      let result={};try{result=await r.json()}catch{}
+      if(!r.ok||result.success===false)throw new Error(result.error||('HTTP '+r.status));
+      const candidate=result.data||result;
+      if(!candidate||!Array.isArray(candidate.clients)||!Array.isArray(candidate.stores))throw new Error('الملف المسترجع لا يحتوي على clients و stores بالشكل الصحيح.');
+      imported=candidate;source='Worker';
+    }
+    db={clients:imported.clients,stores:imported.stores};
+    localStorage.setItem('storemaster_v62_db',JSON.stringify(db));
+    renderAll();
+    setDataSyncStatus('✓ تم جلب البيانات من '+source+' واستبدال البيانات المحلية.',true);
+    alert('تم جلب البيانات بنجاح من '+source+'.');
+  }catch(error){
+    setDataSyncStatus('تعذر جلب البيانات: '+(error.message||String(error)));
+    alert('تعذر جلب البيانات: '+(error.message||String(error)));
+  }finally{if(btn){btn.disabled=false;btn.textContent=previous||'📥 جلب البيانات من GitHub';}}
 }
 function resetData(){if(confirm('Supprimer toutes les données locales ?')){db={clients:[],stores:[]};save();renderAll()}}
 $('workerUrl').value=settings.workerUrl||'';$('masterKey').value=settings.masterKey||'';
