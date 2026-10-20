@@ -6,8 +6,50 @@
       "email": "",
       "phone": "0551102155",
       "status": "Active"
+    },
+    {
+      "id": "CL-mvh5e1nbeoiy",
+      "name": "Saci toumi",
+      "email": "",
+      "phone": "",
+      "status": "Active"
     }
   ],
-  "stores": [],
-  "updatedAt": "2026-10-20T20:34:34.883Z"
+  "stores": [
+    {
+      "id": "ST-mvh58vb0auji",
+      "storeId": "97cd38ab-71e1-4a05-bf7a-ee266fbc41cb",
+      "clientId": "CL-mvh565m2r44a",
+      "name": "One-2-One",
+      "template": "dawn-dz",
+      "repo": "one-2-one",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "subscriptionType": "paid",
+      "trialUsed": true,
+      "trialBonusDays": 0,
+      "clientName": "BENAKRAB Ahcene",
+      "activationDate": "2026-10-20",
+      "expirationDate": "2027-01-20",
+      "createdAt": "2026-10-20T20:36:39.421Z",
+      "adminPassword": "266fbc41cb",
+      "github": {
+        "repository": "one-2-one",
+        "repositoryId": 1427538096,
+        "repositoryUrl": "https://github.com/one-wil/one-2-one",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "one-2-one",
+        "projectName": "one-2-one",
+        "url": "https://one-2-one.pages.dev",
+        "created": false,
+        "deploymentStatus": "active",
+        "error": null,
+        "subdomain": "one-2-one.pages.dev"
+      }
+    }
+  ],
+  "updatedAt": "2026-10-20T20:40:43.476Z"
 }
