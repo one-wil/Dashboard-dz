@@ -49,7 +49,41 @@
         "error": null,
         "subdomain": "one-2-one.pages.dev"
       }
+    },
+    {
+      "id": "ST-mvh5fulk3ifs",
+      "storeId": "d905b578-7c8e-4142-b387-efe0f729c3f2",
+      "clientId": "CL-mvh5e1nbeoiy",
+      "name": "T-shop",
+      "template": "dawn-dz",
+      "repo": "t-shop",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "subscriptionType": "paid",
+      "trialUsed": true,
+      "trialBonusDays": 15,
+      "clientName": "Saci toumi",
+      "activationDate": "2026-10-20",
+      "expirationDate": "2027-02-04",
+      "createdAt": "2026-10-20T20:42:05.096Z",
+      "adminPassword": "e0f729c3f2",
+      "github": {
+        "repository": "t-shop",
+        "repositoryId": 1427542965,
+        "repositoryUrl": "https://github.com/one-wil/t-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "t-shop",
+        "projectName": "t-shop",
+        "url": "https://t-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "active",
+        "error": null,
+        "subdomain": "t-shop.pages.dev"
+      }
     }
   ],
-  "updatedAt": "2026-10-20T20:40:43.476Z"
+  "updatedAt": "2026-10-20T21:14:52.513Z"
 }
