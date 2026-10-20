@@ -1,5 +1,13 @@
 {
-  "clients": [],
+  "clients": [
+    {
+      "id": "CL-mvh565m2r44a",
+      "name": "BENAKRAB Ahcene",
+      "email": "",
+      "phone": "0551102155",
+      "status": "Active"
+    }
+  ],
   "stores": [],
-  "updatedAt": "2026-10-20T20:31:00.875Z"
+  "updatedAt": "2026-10-20T20:34:34.883Z"
 }
