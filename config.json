@@ -83,6 +83,13 @@
       "email": "",
       "phone": "",
       "status": "Active"
+    },
+    {
+      "id": "CL-mvfz086cdzz6",
+      "name": "Khaouid",
+      "email": "",
+      "phone": "",
+      "status": "Active"
     }
   ],
   "stores": [
@@ -961,5 +968,5 @@
       }
     }
   ],
-  "updatedAt": "2026-10-20T00:52:37.805Z"
+  "updatedAt": "2026-10-20T00:54:15.485Z"
 }
