@@ -15,13 +15,6 @@
       "status": "Active"
     },
     {
-      "id": "CL-mua298yahmax",
-      "name": "خويض حليمة",
-      "email": "",
-      "phone": "",
-      "status": "Active"
-    },
-    {
       "id": "CL-muac4g78mkxo",
       "name": "BENAKRAB Yacine",
       "email": "",
@@ -968,5 +961,5 @@
       }
     }
   ],
-  "updatedAt": "2026-10-20T00:15:10.472Z"
+  "updatedAt": "2026-10-20T00:51:32.436Z"
 }
