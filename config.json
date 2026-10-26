@@ -13,6 +13,13 @@
       "email": "",
       "phone": "",
       "status": "Active"
+    },
+    {
+      "id": "CL-mvpvsw82mah2",
+      "name": "Dermouchi samir",
+      "email": "dermouchi@gmail.com",
+      "phone": "0671334655",
+      "status": "Active"
     }
   ],
   "stores": [
@@ -45,9 +52,11 @@
         "projectName": "one-2-one",
         "url": "https://one-2-one.pages.dev",
         "created": false,
-        "deploymentStatus": "active",
+        "deploymentStatus": "success",
         "error": null,
-        "subdomain": "one-2-one.pages.dev"
+        "subdomain": "one-2-one.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
       }
     },
     {
@@ -79,11 +88,13 @@
         "projectName": "t-shop",
         "url": "https://t-shop.pages.dev",
         "created": false,
-        "deploymentStatus": "active",
+        "deploymentStatus": "success",
         "error": null,
-        "subdomain": "t-shop.pages.dev"
+        "subdomain": "t-shop.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
       }
     }
   ],
-  "updatedAt": "2026-10-20T21:14:52.513Z"
+  "updatedAt": "2026-10-26T23:22:14.644Z"
 }
