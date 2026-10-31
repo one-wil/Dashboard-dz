@@ -20,6 +20,13 @@
       "email": "dermouchi@gmail.com",
       "phone": "0671334655",
       "status": "Active"
+    },
+    {
+      "id": "CL-mvwbuu2pmc33",
+      "name": "Kadda Ammour   ",
+      "email": "",
+      "phone": "0796937920",
+      "status": "Active"
     }
   ],
   "stores": [
@@ -94,7 +101,41 @@
         "exists": true,
         "productionBranch": "main"
       }
+    },
+    {
+      "id": "ST-mvpvuzzvnxb0",
+      "storeId": "f6288d7d-34b9-46a8-8f56-59276fc7ed28",
+      "clientId": "CL-mvpvsw82mah2",
+      "name": "Dermo-shop",
+      "template": "dawn-dz",
+      "repo": "dermo-shop",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "subscriptionType": "paid",
+      "trialUsed": true,
+      "trialBonusDays": 15,
+      "clientName": "Dermouchi samir",
+      "activationDate": "2026-10-27",
+      "expirationDate": "2027-02-11",
+      "createdAt": "2026-10-26T23:23:51.356Z",
+      "adminPassword": "276fc7ed28",
+      "github": {
+        "repository": "dermo-shop",
+        "repositoryId": 1435031199,
+        "repositoryUrl": "https://github.com/one-wil/dermo-shop",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "dermo-shop",
+        "projectName": "dermo-shop",
+        "url": "https://dermo-shop.pages.dev",
+        "created": false,
+        "deploymentStatus": "active",
+        "error": null,
+        "subdomain": "dermo-shop.pages.dev"
+      }
     }
   ],
-  "updatedAt": "2026-10-26T23:22:14.644Z"
+  "updatedAt": "2026-10-31T11:38:16.228Z"
 }
