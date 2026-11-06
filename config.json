@@ -135,7 +135,43 @@
         "error": null,
         "subdomain": "dermo-shop.pages.dev"
       }
+    },
+    {
+      "id": "ST-mvwc3kpofyge",
+      "storeId": "b2729b9a-2b55-4382-bd9d-7743cf5c8d5a",
+      "clientId": "CL-mvwbuu2pmc33",
+      "name": "Family-Corner",
+      "template": "dawn-dz",
+      "repo": "family-corner",
+      "status": "Active",
+      "subscriptionPlan": "3m",
+      "subscriptionPrice": 3000,
+      "subscriptionType": "paid",
+      "trialUsed": true,
+      "trialBonusDays": 0,
+      "clientName": "Kadda Ammour   ",
+      "activationDate": "2026-10-31",
+      "expirationDate": "2027-01-31",
+      "createdAt": "2026-10-31T11:45:02.364Z",
+      "adminPassword": "43cf5c8d5a",
+      "github": {
+        "repository": "family-corner",
+        "repositoryId": 1440801960,
+        "repositoryUrl": "https://github.com/one-wil/family-corner",
+        "branch": "main"
+      },
+      "cloudflare": {
+        "project": "family-corner",
+        "projectName": "family-corner",
+        "url": "https://family-corner.pages.dev",
+        "created": false,
+        "deploymentStatus": "success",
+        "error": null,
+        "subdomain": "family-corner.pages.dev",
+        "exists": true,
+        "productionBranch": "main"
+      }
     }
   ],
-  "updatedAt": "2026-10-31T11:38:16.228Z"
+  "updatedAt": "2026-11-06T13:43:51.836Z"
 }
